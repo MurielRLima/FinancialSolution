@@ -1,93 +1,118 @@
-﻿using FinancialSolution.Domain.Interfaces.Business;
-using FinancialSolution.Domain.Model.Response;
-using FinancialSolution.Domain.Model.Resquest;
+﻿using FinancialDocument.Api.Commands;
+using FinancialDocument.Core.Entities;
+using FinancialDocument.Core.Interfaces;
+using FinancialDocument.Domain.Core.Interfaces.Services;
+using FinancialDocument.Domain.Core.Response;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-//using Swashbuckle.AspNetCore.Annotations;
-//using Swashbuckle.AspNetCore.Examples;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-namespace FinancialSolution.Api.Controllers
+namespace FinancialDocument.Api.Command.Controllers
 {
-
-    //[Authorize]
-    //[Route("v{version:apiVersion}/paymentmethod")]
-    //[SwaggerTag("Api para forma de pagamento")]
     [Route("api/paymentmethod")]
-    [Produces("application/json")]
-    [ApiVersion("1")]
     [ApiController]
     public class PaymentMethodController : ControllerBase
     {
-        private readonly IPaymentMethodBusiness _paymentMethodBusiness;
+
+        private readonly IMediator _mediator;
+        private readonly IRepository<PaymentMethod> _repository;
+        private readonly IPaymentMethodService _service;
         private readonly ILogger<PaymentMethodController> _logger;
 
-        public PaymentMethodController(IPaymentMethodBusiness paymentMethodBusiness, ILogger<PaymentMethodController> logger)
+        public PaymentMethodController(IMediator mediator, IRepository<PaymentMethod> repository, IPaymentMethodService service, ILogger<PaymentMethodController> logger)
         {
-            _paymentMethodBusiness = paymentMethodBusiness;
-            _logger = logger;
+            this._mediator = mediator;
+            this._repository = repository;
+            this._service = service;
+            this._logger = logger;
         }
 
         /// <summary>
-        /// Lista todos os registros de forma de pagamento
+        /// Get all registers
         /// </summary>
-        /// <remarks>
-        /// 
-        /// Exemplo:
-        /// 
-        ///     GET /paymentmethod
-        ///     
-        /// </remarks>
-        /// <returns>Lista de registro</returns>
-        /// <response code="200">Lista de forma de pagamento</response>
-        /// <response code="401">Não autorizado</response>
-        /// <response code="500">Erro interno</response>
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(PaymentMethodResponse))]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(AppJsonResponse))]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(AppJsonResponse))]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(AppJsonResponse))]
-        //[SwaggerResponseExample((int)HttpStatusCode.OK, typeof(PaymentMethodResponseExample))]
-        //[SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(ConsultDocumentUnauthorizedExample))]
-        //[SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(ConsultDocumentInternalServerErrorExample))]
+        /// <returns></returns>
+        // GET: api/<PaymentMethodController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _paymentMethodBusiness.Get();
-            return Ok(result);
+            return Ok(await _repository.GetAll());
         }
 
-        // GET api/<PaymentMethod>/164a0e3b-85e5-45be-821e-4445165ea35c
+        /// <summary>
+        /// Get register by id
+        /// </summary>
+        /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
+        /// <returns></returns>
+        // GET api/<PaymentMethodController>/13c6bf63-821d-427e-8baf-1d50482d521f
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _paymentMethodBusiness.Get(id);
-            return Ok(result);
+            return Ok(await _repository.Get(id));
         }
 
-        // POST api/<PaymentMethod>
+        /// <summary>
+        /// Register a Payment method 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        // POST api/<PaymentMethodController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PaymentMethodRequest value)
+        public async Task<IActionResult> Post(PaymentMethodAddCommand command)
         {
-            await _paymentMethodBusiness.Post(value);
-            return Ok();
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
 
-        // PUT api/<PaymentMethod>/164a0e3b-85e5-45be-821e-4445165ea35c
+        /// <summary>
+        /// Edit a register
+        /// </summary>
+        /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
+        /// <param name="value"></param>
+        // PUT api/<PaymentMethodController>/13c6bf63-821d-427e-8baf-1d50482d521f
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] PaymentMethodRequest value)
+        public async Task<IActionResult> Put(Guid id, [FromBody] PaymentMethodUpdateCommand command)
         {
-            return Ok(_paymentMethodBusiness.Put(id, value));
+            if (id.ToString() == "" || id == Guid.Empty)
+            {
+                _logger.LogWarning("Id parameter is null or invalid.");
+                return BadRequest(JsonAppResponse.GetBadRequest("Id parameter is null or invalid."));
+            }
+
+            if (!_service.Exists(id))
+            {
+                _logger.LogWarning($"Register with id '{id.ToString()}' not found.");
+                return BadRequest(JsonAppResponse.GetNotFound($"Register with id '{id.ToString()}' not found."));
+            }
+
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
 
-        // DELETE api/<PaymentMethod>/164a0e3b-85e5-45be-821e-4445165ea35c
+        /// <summary>
+        /// Remove a register by id
+        /// </summary>
+        /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
+        // DELETE api/<PaymentMethodController>/13c6bf63-821d-427e-8baf-1d50482d521f
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return Ok(_paymentMethodBusiness.Delete(id));
+            if (id.ToString() == "" || id == Guid.Empty)
+            {
+                _logger.LogWarning("Id parameter is null or invalid.");
+                return BadRequest(JsonAppResponse.GetBadRequest("Id parameter is null or invalid."));
+            }
+
+            if (!_service.Exists(id))
+            {
+                _logger.LogWarning($"Register with id '{id.ToString()}' not found.");
+                return BadRequest(JsonAppResponse.GetNotFound($"Register with id '{id.ToString()}' not found."));
+            }
+
+            var command = new PaymentMethodDeleteCommand(id);
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
     }
 }
