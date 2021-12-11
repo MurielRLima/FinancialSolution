@@ -56,14 +56,21 @@ namespace FinancialDocument.Api
             // Add Context
             services.AddScoped<AppDbContext>();
 
+            //Repositories
             services.AddTransient<IRepository<PaymentMethod>, PaymentMethodRepository>();
             services.AddTransient<IRepository<ReceivingLocation>, ReceivingLocationRepository>();
             services.AddTransient<IRepository<BusinessPartner>, BusinessPartnerRepository>();
+            services.AddTransient<IRepository<Document>, DocumentRepository>();
+            services.AddTransient<IRepository<DocumentDetail>, DocumentDetailRepository>();
 
+            //Services
             services.AddTransient<IPaymentMethodService, PaymentMethodService>();
             services.AddTransient<IReceivingLocationService, ReceivingLocationService>();
             services.AddTransient<IBusinessPartnerService, BusinessPartnerService>();
+            services.AddTransient<IDocumentService, DocumentService>();
+            services.AddTransient<IDocumentDetailService, DocumentDetailService>();
 
+            //Swagger configuration
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinancialDocument.Api", Version = "v1" });

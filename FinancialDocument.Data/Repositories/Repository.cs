@@ -22,7 +22,13 @@ namespace FinancialDocument.Data.Repositories
         {            
             _context.Set<TEntity>().Add(item);
             await _context.SaveChangesAsync();
-        }   
+        }
+
+        public async Task Add(IEnumerable<TEntity> items)
+        {
+            _context.Set<TEntity>().AddRange(items);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task Delete(Guid id)
         {
