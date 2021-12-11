@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FinancialDocument.Core.Entities
 {
@@ -15,5 +16,6 @@ namespace FinancialDocument.Core.Entities
         public bool IsSupplier { get; set; }
         public bool IsCustomer { get; set; }
 
+        public List<Document> Documents { get; set; } = new List<Document>();
     }
 }
