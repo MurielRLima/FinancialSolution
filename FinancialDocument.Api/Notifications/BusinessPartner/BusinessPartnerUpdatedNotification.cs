@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MediatR;
+using System;
 
-namespace FinancialDocument.Core.Entities
+namespace FinancialDocument.Api.Notifications.BusinessPartner
 {
-    public class BusinessPartner
+    public class BusinessPartnerUpdatedNotification : INotification
     {
         public Guid Id { get; set; }
         public string TradingName { get; set; }
@@ -14,6 +15,5 @@ namespace FinancialDocument.Core.Entities
         public bool? Active { get; set; }
         public bool IsSupplier { get; set; }
         public bool IsCustomer { get; set; }
-
     }
 }

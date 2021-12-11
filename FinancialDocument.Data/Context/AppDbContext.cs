@@ -30,6 +30,7 @@ namespace FinancialDocument.Data.Context
             //
             modelBuilder.ApplyConfiguration(new PaymentMethodConfiguration());
             modelBuilder.ApplyConfiguration(new ReceivingLocationConfiguration());
+            modelBuilder.ApplyConfiguration(new BusinessPartnerConfiguration());
             #endregion
 
             #region Seed data
@@ -47,12 +48,19 @@ namespace FinancialDocument.Data.Context
                 new ReceivingLocation { Id = Guid.NewGuid(), Description = "Conta banco nacional", Active = true },
                 new ReceivingLocation { Id = Guid.NewGuid(), Description = "Conta banco estadual", Active = true }
             );
+            // Business Partner
+            modelBuilder.Entity<BusinessPartner>().HasData(
+                new BusinessPartner { Id = Guid.NewGuid(), TradingName = "National cutomer", CorporateName = "National cutomer", Address = "NYC", Telephone = "985555-5555", Celphone = "", Observation = null, Active = true, IsSupplier = false, IsCustomer = true },
+                new BusinessPartner { Id = Guid.NewGuid(), TradingName = "National supplier", CorporateName = "National supplier", Address = "LA", Telephone = "975555-5555", Celphone = "", Observation = null, Active = true, IsSupplier = true, IsCustomer = false },
+                new BusinessPartner { Id = Guid.NewGuid(), TradingName = "Logistic partner", CorporateName = "Logistic partner", Address = "WD", Telephone = "965555-5555", Celphone = "", Observation = null, Active = true, IsSupplier = true, IsCustomer = true }
+            );
             #endregion
         }
 
         #region DbSets
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<ReceivingLocation> ReceivingLocations { get; set; }
+        public DbSet<BusinessPartner> BusinessPartners { get; set; }
         #endregion
 
     }

@@ -58,9 +58,11 @@ namespace FinancialDocument.Api
 
             services.AddTransient<IRepository<PaymentMethod>, PaymentMethodRepository>();
             services.AddTransient<IRepository<ReceivingLocation>, ReceivingLocationRepository>();
+            services.AddTransient<IRepository<BusinessPartner>, BusinessPartnerRepository>();
 
             services.AddTransient<IPaymentMethodService, PaymentMethodService>();
             services.AddTransient<IReceivingLocationService, ReceivingLocationService>();
+            services.AddTransient<IBusinessPartnerService, BusinessPartnerService>();
 
             services.AddSwaggerGen(c =>
             {
