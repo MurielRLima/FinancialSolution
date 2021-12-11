@@ -31,6 +31,8 @@ namespace FinancialDocument.Data.Context
             modelBuilder.ApplyConfiguration(new PaymentMethodConfiguration());
             modelBuilder.ApplyConfiguration(new ReceivingLocationConfiguration());
             modelBuilder.ApplyConfiguration(new BusinessPartnerConfiguration());
+            modelBuilder.ApplyConfiguration(new DocumentConfiguration());
+            modelBuilder.ApplyConfiguration(new DocumentDetailConfiguration());
             #endregion
 
             #region Seed data
@@ -61,6 +63,8 @@ namespace FinancialDocument.Data.Context
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<ReceivingLocation> ReceivingLocations { get; set; }
         public DbSet<BusinessPartner> BusinessPartners { get; set; }
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<DocumentDetail> DocumentDetails { get; set; }
         #endregion
 
     }

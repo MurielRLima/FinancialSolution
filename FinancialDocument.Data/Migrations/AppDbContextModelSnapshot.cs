@@ -21,7 +21,7 @@ namespace FinancialDocument.Data.Migrations
             modelBuilder.Entity("FinancialDocument.Core.Entities.BusinessPartner", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("UniqueIdentifier(36)");
+                        .HasColumnType("char(36)");
 
                     b.Property<ulong?>("Active")
                         .ValueGeneratedOnAdd()
@@ -68,7 +68,7 @@ namespace FinancialDocument.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b52cbcd1-e074-4643-988c-c96cf7ede829"),
+                            Id = new Guid("42813041-f6e0-49e3-93b7-4d1400b0c7b6"),
                             Active = 1ul,
                             Address = "NYC",
                             Celphone = "",
@@ -80,7 +80,7 @@ namespace FinancialDocument.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("088c2d77-d46a-4859-933c-4a00ee75ef49"),
+                            Id = new Guid("6d357424-cf26-4efc-8723-b92c4ed4ca1b"),
                             Active = 1ul,
                             Address = "LA",
                             Celphone = "",
@@ -92,7 +92,7 @@ namespace FinancialDocument.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dfce158b-239a-40f0-a329-ad52c9cd2d22"),
+                            Id = new Guid("bdad0ecc-949a-48fa-bbc0-9eabbfce4f56"),
                             Active = 1ul,
                             Address = "WD",
                             Celphone = "",
@@ -104,10 +104,98 @@ namespace FinancialDocument.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FinancialDocument.Core.Entities.Document", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<ulong>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(1ul);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("deimal(15,2)");
+
+                    b.Property<Guid>("BusinessPartnerId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("DocumentNumber")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("DocumentType")
+                        .IsRequired()
+                        .HasColumnType("char(1)");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Observation")
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<Guid>("PaymentMethodId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("ReceivingLocationId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<ulong>("Settled")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(0ul);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BusinessPartnerId");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("ReceivingLocationId");
+
+                    b.ToTable("Document");
+                });
+
+            modelBuilder.Entity("FinancialDocument.Core.Entities.DocumentDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<ulong>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(1ul);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Observation")
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<string>("OperationType")
+                        .IsRequired()
+                        .HasColumnType("char(1)");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("deimal(15,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.ToTable("DocumentDetail");
+                });
+
             modelBuilder.Entity("FinancialDocument.Core.Entities.PaymentMethod", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("UniqueIdentifier(36)");
+                        .HasColumnType("char(36)");
 
                     b.Property<ulong?>("Active")
                         .ValueGeneratedOnAdd()
@@ -131,35 +219,35 @@ namespace FinancialDocument.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0ab926e2-756f-4bb9-87a9-f4cecaca454e"),
+                            Id = new Guid("bc8b0709-b4e9-4f95-9113-ae99b9540e4e"),
                             Active = 1ul,
                             Description = "Dinheiro",
                             Installments = 1
                         },
                         new
                         {
-                            Id = new Guid("18e3b921-ef77-4400-a73e-ccaa10f4a359"),
+                            Id = new Guid("d997816b-163a-4d98-9194-0603612bcc79"),
                             Active = 1ul,
                             Description = "Boleto banco nacional",
                             Installments = 1
                         },
                         new
                         {
-                            Id = new Guid("e8fefab2-46a6-42a1-86c0-c5aba26f6097"),
+                            Id = new Guid("f66fd18d-899a-4fe2-9fda-247c1a5bfe97"),
                             Active = 1ul,
                             Description = "Boleto banco estadual",
                             Installments = 1
                         },
                         new
                         {
-                            Id = new Guid("87acf46b-77c0-494c-bbdd-3fd5898ab265"),
+                            Id = new Guid("b5ff2f9b-c4b0-4478-9e50-61dcd37dcb82"),
                             Active = 1ul,
                             Description = "Cartão de crédito à vista",
                             Installments = 1
                         },
                         new
                         {
-                            Id = new Guid("314aa597-82db-4d18-a612-2e8f4bb8042c"),
+                            Id = new Guid("d819d8d6-a04a-4ce7-b290-143c79b9d625"),
                             Active = 1ul,
                             Description = "Cartão de crédito 3 vezes",
                             Installments = 3
@@ -169,7 +257,7 @@ namespace FinancialDocument.Data.Migrations
             modelBuilder.Entity("FinancialDocument.Core.Entities.ReceivingLocation", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("UniqueIdentifier(36)");
+                        .HasColumnType("char(36)");
 
                     b.Property<ulong?>("Active")
                         .ValueGeneratedOnAdd()
@@ -190,22 +278,80 @@ namespace FinancialDocument.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("126ead04-b4f2-46aa-b16d-a220103a9a93"),
+                            Id = new Guid("5f5261df-1bb2-4f0b-a901-9cf15dd8ca44"),
                             Active = 1ul,
                             Description = "Caixa interno"
                         },
                         new
                         {
-                            Id = new Guid("ec8c936d-412e-4d6c-b8f8-4e6ae7831ff1"),
+                            Id = new Guid("efa1e8f7-3df9-45a3-855e-a904cd132ce7"),
                             Active = 1ul,
                             Description = "Conta banco nacional"
                         },
                         new
                         {
-                            Id = new Guid("58d61271-f3fb-4e84-a389-52bf62451f0f"),
+                            Id = new Guid("373fa65c-4e06-49a2-82fb-bd69c0c7005c"),
                             Active = 1ul,
                             Description = "Conta banco estadual"
                         });
+                });
+
+            modelBuilder.Entity("FinancialDocument.Core.Entities.Document", b =>
+                {
+                    b.HasOne("FinancialDocument.Core.Entities.BusinessPartner", "businessPartner")
+                        .WithMany("Documents")
+                        .HasForeignKey("BusinessPartnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FinancialDocument.Core.Entities.PaymentMethod", "paymentMethod")
+                        .WithMany("Documents")
+                        .HasForeignKey("PaymentMethodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FinancialDocument.Core.Entities.ReceivingLocation", "receivinglocation")
+                        .WithMany("Documents")
+                        .HasForeignKey("ReceivingLocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("businessPartner");
+
+                    b.Navigation("paymentMethod");
+
+                    b.Navigation("receivinglocation");
+                });
+
+            modelBuilder.Entity("FinancialDocument.Core.Entities.DocumentDetail", b =>
+                {
+                    b.HasOne("FinancialDocument.Core.Entities.Document", "document")
+                        .WithMany("documentDetails")
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("document");
+                });
+
+            modelBuilder.Entity("FinancialDocument.Core.Entities.BusinessPartner", b =>
+                {
+                    b.Navigation("Documents");
+                });
+
+            modelBuilder.Entity("FinancialDocument.Core.Entities.Document", b =>
+                {
+                    b.Navigation("documentDetails");
+                });
+
+            modelBuilder.Entity("FinancialDocument.Core.Entities.PaymentMethod", b =>
+                {
+                    b.Navigation("Documents");
+                });
+
+            modelBuilder.Entity("FinancialDocument.Core.Entities.ReceivingLocation", b =>
+                {
+                    b.Navigation("Documents");
                 });
 #pragma warning restore 612, 618
         }

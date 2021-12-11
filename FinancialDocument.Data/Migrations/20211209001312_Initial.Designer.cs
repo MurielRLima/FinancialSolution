@@ -23,7 +23,7 @@ namespace FinancialDocument.Data.Migrations
             modelBuilder.Entity("FinancialDocument.Core.Entities.PaymentMethod", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("UniqueIdentifier(36)");
+                        .HasColumnType("char(36)");
 
                     b.Property<ulong?>("Active")
                         .ValueGeneratedOnAdd()
@@ -85,7 +85,7 @@ namespace FinancialDocument.Data.Migrations
             modelBuilder.Entity("FinancialDocument.Core.Entities.ReceivingLocation", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("UniqueIdentifier(36)");
+                        .HasColumnType("char(36)");
 
                     b.Property<ulong?>("Active")
                         .ValueGeneratedOnAdd()

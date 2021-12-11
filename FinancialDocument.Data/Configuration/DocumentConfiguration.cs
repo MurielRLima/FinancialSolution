@@ -38,7 +38,7 @@ namespace FinancialDocument.Data.Configuration
 
             builder.Property(t => t.Amount)
                 .IsRequired()
-                .HasColumnType("deimal(15,2)");
+                .HasColumnType("decimal(15,2)");
 
             builder.Property(t => t.PaymentMethodId)
                 .IsRequired()
@@ -58,7 +58,7 @@ namespace FinancialDocument.Data.Configuration
                 .HasColumnType("bit");
 
             builder.Property(t => t.Active)
-                .IsRequired(false)
+                .IsRequired()
                 .HasDefaultValue(true)
                 .HasColumnType("bit");
 

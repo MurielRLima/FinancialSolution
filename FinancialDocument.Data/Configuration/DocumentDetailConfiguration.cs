@@ -35,14 +35,14 @@ namespace FinancialDocument.Data.Configuration
 
             builder.Property(t => t.Value)
                 .IsRequired()
-                .HasColumnType("deimal(15,2)");
+                .HasColumnType("decimal(15,2)");
 
             builder.Property(t => t.Observation)
                 .IsRequired(false)
                 .HasColumnType("varchar(1000)");
 
             builder.Property(t => t.Active)
-                .IsRequired(false)
+                .IsRequired()
                 .HasDefaultValue(true)
                 .HasColumnType("bit");
 
