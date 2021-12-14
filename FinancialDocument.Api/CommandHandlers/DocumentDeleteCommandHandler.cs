@@ -15,18 +15,29 @@ namespace FinancialDocument.Api.CommandHandlers
     {
         private readonly IMediator _mediator;
         private readonly IRepository<Document> _repository;
+        private readonly IRepository<DocumentDetail> _detailRepository;
 
-        public DocumentDeleteCommandHandler(IMediator mediator, IRepository<Document> repository)
+        public DocumentDeleteCommandHandler(IMediator mediator, IRepository<Document> repository, IRepository<DocumentDetail> detailRepository)
         {
             this._mediator = mediator;
             this._repository = repository;
+            this._detailRepository = detailRepository;
         }
 
         public async Task<string> Handle(DocumentDeleteCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                var data = await _repository.Get(request.Id);
+
+                foreach (var detail in data.documentDetails)
+                {
+                    if (detail.Id != Guid.Empty)
+                        await _detailRepository.Delete(detail.Id);
+                }
+
                 await _repository.Delete(request.Id);
+
                 await _mediator.Publish(new DocumentDeletedNotification { Id = request.Id });
                 return await Task.FromResult(JsonSerializer.Serialize(request));
             }

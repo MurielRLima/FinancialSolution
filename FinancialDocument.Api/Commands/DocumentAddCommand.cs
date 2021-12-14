@@ -32,12 +32,12 @@ namespace FinancialDocument.Api.Commands
                 DueDate = document.DueDate,
                 Amount = document.Amount,
                 PaymentMethodId = document.PaymentMethodId,
+                ReceivingLocationId = document.ReceivingLocationId,
                 Observation = document.Observation,
                 Active = document.Active,
                 documentDetails = DocumentDetailAddCommand.MapTo(newId, document.documentDetails)
             };
         }
-
         public List<DocumentDetailAddCommand> documentDetails { get; set; } = new List<DocumentDetailAddCommand>();
     }
 

@@ -4,8 +4,8 @@ using FinancialDocument.Api.Notifications.Document;
 using FinancialDocument.Core.Entities;
 using FinancialDocument.Core.Interfaces;
 using MediatR;
+using Newtonsoft.Json;
 using System;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,7 +31,7 @@ namespace FinancialDocument.Api.CommandHandlers
             try
             {
                 await _repository.Add(data);
-                await _detailRepository.Add(data.documentDetails);
+                //await _detailRepository.Add(data.documentDetails);
 
                 await _mediator.Publish(
                     new DocumentAddedNotification
@@ -50,7 +50,7 @@ namespace FinancialDocument.Api.CommandHandlers
                         Active = data.Active
                     }
                 );
-                return await Task.FromResult(JsonSerializer.Serialize(data));
+                return await Task.FromResult(JsonConvert.SerializeObject(data));
             }
             catch (Exception ex)
             {

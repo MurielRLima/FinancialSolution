@@ -1,12 +1,21 @@
 ﻿using FinancialDocument.Core.Entities;
 using MediatR;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace FinancialDocument.Api.Commands
 {
     public class DocumentUpdateCommand : IRequest<string>
     {
+        [DataMember]
+        [Required]
+        [MaxLength(36)]
+        [MinLength(36)]
+        //[SwaggerSchema(Title = "Id", Description = "Id único do documento")]
+        [JsonProperty("id", Required = Required.DisallowNull)] 
         public Guid Id { get; set; }
         public string DocumentNumber { get; set; }
         public Guid BusinessPartnerId { get; set; }
@@ -32,12 +41,12 @@ namespace FinancialDocument.Api.Commands
                 DueDate = document.DueDate,
                 Amount = document.Amount,
                 PaymentMethodId = document.PaymentMethodId,
+                ReceivingLocationId = document.ReceivingLocationId,
                 Observation = document.Observation,
                 Active = document.Active,
                 documentDetails = DocumentDetailUpdate.MapTo(document.documentDetails)
             };
         }
-
         public List<DocumentDetailUpdate> documentDetails { get; set; } = new List<DocumentDetailUpdate>();
     }
 
@@ -54,7 +63,8 @@ namespace FinancialDocument.Api.Commands
         {
             return new DocumentDetail()
             {
-                Id = detail.Id,
+                Id = (detail.Id == Guid.Empty ? Guid.NewGuid() : detail.Id),
+                DocumentId = detail.DocumentId,
                 OperationType = detail.OperationType,
                 Date = detail.Date,
                 Value = detail.Value,
@@ -71,7 +81,8 @@ namespace FinancialDocument.Api.Commands
             {
                 r.Add(new DocumentDetail()
                 {
-                    Id = detail.Id,
+                    Id = (detail.Id == Guid.Empty ? Guid.NewGuid() : detail.Id),
+                    DocumentId = detail.DocumentId,
                     OperationType = detail.OperationType,
                     Date = detail.Date,
                     Value = detail.Value,

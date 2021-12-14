@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,11 +18,13 @@ namespace FinancialDocument.Api.CommandHandlers
     {
         private readonly IMediator _mediator;
         private readonly IRepository<Document> _repository;
+        private readonly IRepository<DocumentDetail> _detailRepository;
 
-        public DocumentUpdateCommandHandler(IMediator mediator, IRepository<Document> repository)
+        public DocumentUpdateCommandHandler(IMediator mediator, IRepository<Document> repository, IRepository<DocumentDetail> detailRepository)
         {
             this._mediator = mediator;
             this._repository = repository;
+            this._detailRepository = detailRepository;
         }
 
         public async Task<string> Handle(DocumentUpdateCommand request, CancellationToken cancellationToken)
@@ -31,6 +34,15 @@ namespace FinancialDocument.Api.CommandHandlers
             try
             {
                 await _repository.Edit(data);
+
+                foreach(var detail in data.documentDetails)
+                {
+                    if (detail.Id != Guid.Empty)
+                        await _detailRepository.Delete(detail.Id);
+                }
+
+                await _detailRepository.Add(data.documentDetails);
+
                 await _mediator.Publish(
                     new DocumentUpdatedNotification
                     {
@@ -48,7 +60,11 @@ namespace FinancialDocument.Api.CommandHandlers
                         Active = data.Active
                     }
                 );
-                return await Task.FromResult(JsonSerializer.Serialize(data));
+                return await Task.FromResult(JsonSerializer.Serialize(data, new JsonSerializerOptions()
+                {
+                    WriteIndented = true,
+                    ReferenceHandler = ReferenceHandler.Preserve
+                }));
             }
             catch (Exception ex)
             {
