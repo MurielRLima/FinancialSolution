@@ -7,11 +7,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FinancialSolution.Api.Controllers
 {
@@ -37,8 +34,17 @@ namespace FinancialSolution.Api.Controllers
         /// <summary>
         /// Get all registers
         /// </summary>
-        /// <returns></returns>
-        // GET: api/<FinancialDocumentController>
+        /// <remarks>
+        /// 
+        /// Exemplo:
+        /// 
+        ///     Get /financialdocument
+        ///     
+        /// </remarks>
+        /// <returns>List of regtisters</returns>
+        /// <response code="200">List of regtisters</response>
+        /// <response code="401">Unathorized</response>
+        // GET: api/financialdocument
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -48,9 +54,18 @@ namespace FinancialSolution.Api.Controllers
         /// <summary>
         /// Get register by id
         /// </summary>
-        /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
+        /// <remarks>
+        /// 
+        /// Exemplo:
+        /// 
+        ///     Get /financialdocument/13c6bf63-821d-427e-8baf-1d50482d521f
+        ///     
+        /// </remarks>
+        /// <returns>One regtister</returns>
+        /// <response code="200">Register</response>
+        /// <response code="401">Unathorized</response>
         /// <returns></returns>
-        // GET api/<FinancialDocumentController>/13c6bf63-821d-427e-8baf-1d50482d521f
+        // GET api/financialdocument/13c6bf63-821d-427e-8baf-1d50482d521f
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -59,19 +74,45 @@ namespace FinancialSolution.Api.Controllers
 
 
         /// <summary>
-        /// Cria um registro
+        /// Create a register
         /// </summary>
         /// <remarks>
         /// 
-        /// Exemplo:
+        /// Example:
         /// 
-        ///     Post /
+        ///     Post /financialdocument
+        ///     {
+        ///       "documentNumber": "Doc.Test",
+        ///       "businessPartnerId": "6d357424-cf26-4efc-8723-b92c4ed4ca1b",
+        ///       "documentType": "D",
+        ///       "issueDate": "2021-12-11T19:12:02.287Z",
+        ///       "dueDate": "2021-12-11T19:12:02.287Z",
+        ///       "amount": 1255.55,
+        ///       "paymentMethodId": "d819d8d6-a04a-4ce7-b290-143c79b9d625",
+        ///       "receivingLocationId": "efa1e8f7-3df9-45a3-855e-a904cd132ce7",
+        ///       "observation": null,
+        ///       "settled": false,
+        ///       "active": true,
+        ///       "documentDetails": [
+        ///         {
+        ///           "operationType": "C",
+        ///           "date": "2021-12-11T19:12:02.287Z",
+        ///           "value": 550,
+        ///           "observation": "entrada",
+        ///           "active": true
+        ///         }
+        ///       ]
+        ///     }
         ///     
         /// </remarks>
-        /// <returns>Um registro</returns>
-        /// <response code="200">Registro criado</response>
-        /// <response code="401">Requisição não autorizada</response>
-        // POST api/<FinancialDocumentController>
+        /// <returns>Register created</returns>
+        /// <response code="200">Register created</response>
+        /// <response code="401">Unathorized</response>
+        /// <response code="500">Internal error</response>
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DocumentAddResponse))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonResult))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonResult))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonResult))]
         [HttpPost]
         public async Task<IActionResult> Post(DocumentAddCommand command)
         {
@@ -82,9 +123,19 @@ namespace FinancialSolution.Api.Controllers
         /// <summary>
         /// Edit a register
         /// </summary>
+        /// <remarks>
+        /// 
+        /// Exemplo:
+        /// 
+        ///     Put /financialdocument/15241167-8bf8-41ea-a99f-0cd03acd0e65
+        ///     
+        /// </remarks>
         /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
         /// <param name="value"></param>
-        // PUT api/<FinancialDocumentController>/13c6bf63-821d-427e-8baf-1d50482d521f
+        /// <returns>Register updated</returns>
+        /// <response code="200">Register updated</response>
+        /// <response code="401">Unathorized</response>
+        // PUT api/financialdocument/13c6bf63-821d-427e-8baf-1d50482d521f
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] DocumentUpdateCommand command)
         {
@@ -107,8 +158,18 @@ namespace FinancialSolution.Api.Controllers
         /// <summary>
         /// Remove a register by id
         /// </summary>
+        /// <remarks>
+        /// 
+        /// Exemplo:
+        /// 
+        ///     Delete /financialdocument/15241167-8bf8-41ea-a99f-0cd03acd0e65
+        ///     
+        /// </remarks>
         /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
-        // DELETE api/<FinancialDocumentController>/13c6bf63-821d-427e-8baf-1d50482d521f
+        /// <returns></returns>
+        /// <response code="200"></response>
+        /// <response code="401">Unathorized</response>
+        // DELETE api/financialdocument/13c6bf63-821d-427e-8baf-1d50482d521f
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
