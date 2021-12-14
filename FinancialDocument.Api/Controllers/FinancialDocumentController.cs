@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 namespace FinancialSolution.Api.Controllers
 {
     [Route("api/financialdocument")]
+    [Produces("application/json")]
     [ApiController]
     public class FinancialDocumentController : ControllerBase
     {
@@ -27,10 +28,10 @@ namespace FinancialSolution.Api.Controllers
 
         public FinancialDocumentController(IMediator mediator, IRepository<Document> repository, IDocumentService service, ILogger<FinancialDocumentController> logger)
         {
-            this._mediator = mediator;
-            this._repository = repository;
-            this._service = service;
-            this._logger = logger;
+            this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); 
+            this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            this._service = service ?? throw new ArgumentNullException(nameof(service));
+            this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -56,11 +57,20 @@ namespace FinancialSolution.Api.Controllers
             return Ok(await _repository.Get(id));
         }
 
+
         /// <summary>
-        /// Register a Payment method 
+        /// Cria um registro
         /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// 
+        /// Exemplo:
+        /// 
+        ///     Post /
+        ///     
+        /// </remarks>
+        /// <returns>Um registro</returns>
+        /// <response code="200">Registro criado</response>
+        /// <response code="401">Requisição não autorizada</response>
         // POST api/<FinancialDocumentController>
         [HttpPost]
         public async Task<IActionResult> Post(DocumentAddCommand command)

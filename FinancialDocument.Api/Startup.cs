@@ -13,9 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace FinancialDocument.Api
 {
@@ -43,16 +40,19 @@ namespace FinancialDocument.Api
             services.AddDbContextPool<AppDbContext>(options => options.UseMySql(mySqlConn, ServerVersion.AutoDetect(mySqlConn)));
 
             services.AddControllers()
-                .AddJsonOptions(x => {
-                    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-                    //x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                    x.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                    x.JsonSerializerOptions.PropertyNamingPolicy = null;
+                .AddJsonOptions(x =>
+                {
+                    //    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    //    //x.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    //    x.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                    //    x.JsonSerializerOptions.PropertyNamingPolicy = null;
                 })
-                .AddNewtonsoftJson(options => {
+                .AddXmlSerializerFormatters()
+                .AddNewtonsoftJson(options =>
+                {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                })
-                .AddXmlSerializerFormatters();
+                });
+
 
             services.AddMediatR(typeof(Startup));
 

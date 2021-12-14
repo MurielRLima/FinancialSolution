@@ -4,14 +4,14 @@ using FinancialDocument.Api.Notifications.Document;
 using FinancialDocument.Core.Entities;
 using FinancialDocument.Core.Interfaces;
 using MediatR;
-using Newtonsoft.Json;
 using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FinancialDocument.Api.CommandHandlers
 {
-    public class DocumentAddCommandHandler : IRequestHandler<DocumentAddCommand, string>
+    public class DocumentAddCommandHandler : IRequestHandler<DocumentAddCommand, DocumentAddResponse>
     {
         private readonly IMediator _mediator;
         private readonly IRepository<Document> _repository;
@@ -24,7 +24,7 @@ namespace FinancialDocument.Api.CommandHandlers
             this._detailRepository = detailRepository;
         }
 
-        public async Task<string> Handle(DocumentAddCommand request, CancellationToken cancellationToken)
+        public async Task<DocumentAddResponse> Handle(DocumentAddCommand request, CancellationToken cancellationToken)
         {
             Document data = DocumentAddCommand.MapTo(request);
 
@@ -50,13 +50,13 @@ namespace FinancialDocument.Api.CommandHandlers
                         Active = data.Active
                     }
                 );
-                return await Task.FromResult(JsonConvert.SerializeObject(data));
+                return DocumentAddResponse.MapTo(data);
             }
             catch (Exception ex)
             {
                 //await _mediator.Publish(new BusinessPartnerAddedNotification { Id = data.Id, TradingName = data.TradingName, CorporateName = data.CorporateName, Address = data.Address, Telephone = data.Telephone, Celphone = data.Celphone, Observation = data.Observation, Active = data.Active, IsSupplier = data.IsSupplier, IsCustomer = data.IsCustomer });
                 await _mediator.Publish(new ErroNotification { InternalMessage = "Document add command handler", Error = ex.Message, Message = ex.StackTrace });
-                return await Task.FromResult("Ocorreu um erro ao criar o registro");
+                throw new Exception("Ocorreu um erro ao criar o registro");
             }
 
         }
