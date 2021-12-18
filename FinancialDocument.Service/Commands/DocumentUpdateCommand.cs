@@ -1,5 +1,6 @@
 ﻿using FinancialDocument.Domain.Entities;
 using MediatR;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ namespace FinancialDocument.Service.Commands
         [MaxLength(36)]
         [MinLength(36)]
         //[SwaggerSchema(Title = "Id", Description = "Id único do documento")]
-        //[JsonProperty("id", Required = Required.DisallowNull)] 
+        [JsonProperty("id", Required = Required.DisallowNull)] 
         public Guid Id { get; set; }
         public string DocumentNumber { get; set; }
         public Guid BusinessPartnerId { get; set; }

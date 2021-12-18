@@ -5,13 +5,12 @@ using FinancialDocument.Domain.Entities;
 using FinancialDocument.Domain.Interfaces;
 using MediatR;
 using System;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FinancialDocument.Service.CommandHandlers
 {
-    public class BusinessPartnerUpdateCommandHandler : IRequestHandler<BusinessPartnerUpdateCommand, string>
+    public class BusinessPartnerUpdateCommandHandler : IRequestHandler<BusinessPartnerUpdateCommand, BusinessPartnerUpdateResponse>
     {
         private readonly IMediator _mediator;
         private readonly IRepository<BusinessPartner> _repository;
@@ -22,7 +21,7 @@ namespace FinancialDocument.Service.CommandHandlers
             this._repository = repository;
         }
 
-        public async Task<string> Handle(BusinessPartnerUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<BusinessPartnerUpdateResponse> Handle(BusinessPartnerUpdateCommand request, CancellationToken cancellationToken)
         {
             BusinessPartner data = BusinessPartnerUpdateCommand.MapTo(request);
 
@@ -43,13 +42,13 @@ namespace FinancialDocument.Service.CommandHandlers
                         IsCustomer = data.IsCustomer
                     }
                 );
-                return await Task.FromResult(JsonSerializer.Serialize(data));
+                return BusinessPartnerUpdateResponse.MapTo(data);
             }
             catch (Exception ex)
             {
                 //await _mediator.Publish(new BusinessPartnerUpdatedNotification { Id = data.Id, TradingName = data.TradingName, CorporateName = data.CorporateName, Address = data.Address, Telephone = data.Telephone, Celphone = data.Celphone, Observation = data.Observation, Active = data.Active, IsSupplier = data.IsSupplier, IsCustomer = data.IsCustomer });
                 await _mediator.Publish(new ErroNotification { InternalMessage = "Business partner update command handler", Error = ex.Message, Message = ex.StackTrace });
-                return await Task.FromResult("Ocorreu um erro ao atualizar o registro");
+                throw new Exception("Ocorreu um erro ao atualizar o registro");
             }
 
         }
