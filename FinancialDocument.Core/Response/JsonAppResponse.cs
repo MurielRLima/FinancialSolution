@@ -1,6 +1,6 @@
-﻿using FinancialDocument.Domain.Core.Interfaces;
+﻿using FinancialDocument.Domain.Interfaces;
 
-namespace FinancialDocument.Domain.Core.Response
+namespace FinancialDocument.Domain.Response
 {
     public class JsonAppResponse : IJsonAppResponse
     {

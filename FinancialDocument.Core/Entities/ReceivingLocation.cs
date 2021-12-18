@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FinancialDocument.Core.Entities
+namespace FinancialDocument.Domain.Entities
 {
     public class ReceivingLocation
     {

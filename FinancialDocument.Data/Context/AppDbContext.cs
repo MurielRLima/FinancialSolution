@@ -1,4 +1,4 @@
-﻿using FinancialDocument.Core.Entities;
+﻿using FinancialDocument.Domain.Entities;
 using FinancialDocument.Data.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System;

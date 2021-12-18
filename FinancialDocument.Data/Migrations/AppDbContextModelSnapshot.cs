@@ -18,7 +18,7 @@ namespace FinancialDocument.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.5");
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.BusinessPartner", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.BusinessPartner", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -104,7 +104,7 @@ namespace FinancialDocument.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.Document", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.Document", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -159,7 +159,7 @@ namespace FinancialDocument.Data.Migrations
                     b.ToTable("Document");
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.DocumentDetail", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.DocumentDetail", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -192,7 +192,7 @@ namespace FinancialDocument.Data.Migrations
                     b.ToTable("DocumentDetail");
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.PaymentMethod", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.PaymentMethod", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -254,7 +254,7 @@ namespace FinancialDocument.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.ReceivingLocation", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.ReceivingLocation", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -296,21 +296,21 @@ namespace FinancialDocument.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.Document", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.Document", b =>
                 {
-                    b.HasOne("FinancialDocument.Core.Entities.BusinessPartner", "businessPartner")
+                    b.HasOne("FinancialDocument.Domain.Entities.BusinessPartner", "businessPartner")
                         .WithMany("Documents")
                         .HasForeignKey("BusinessPartnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FinancialDocument.Core.Entities.PaymentMethod", "paymentMethod")
+                    b.HasOne("FinancialDocument.Domain.Entities.PaymentMethod", "paymentMethod")
                         .WithMany("Documents")
                         .HasForeignKey("PaymentMethodId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FinancialDocument.Core.Entities.ReceivingLocation", "receivinglocation")
+                    b.HasOne("FinancialDocument.Domain.Entities.ReceivingLocation", "receivinglocation")
                         .WithMany("Documents")
                         .HasForeignKey("ReceivingLocationId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -323,9 +323,9 @@ namespace FinancialDocument.Data.Migrations
                     b.Navigation("receivinglocation");
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.DocumentDetail", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.DocumentDetail", b =>
                 {
-                    b.HasOne("FinancialDocument.Core.Entities.Document", "document")
+                    b.HasOne("FinancialDocument.Domain.Entities.Document", "document")
                         .WithMany("documentDetails")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -334,22 +334,22 @@ namespace FinancialDocument.Data.Migrations
                     b.Navigation("document");
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.BusinessPartner", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.BusinessPartner", b =>
                 {
                     b.Navigation("Documents");
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.Document", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.Document", b =>
                 {
                     b.Navigation("documentDetails");
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.PaymentMethod", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.PaymentMethod", b =>
                 {
                     b.Navigation("Documents");
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.ReceivingLocation", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.ReceivingLocation", b =>
                 {
                     b.Navigation("Documents");
                 });

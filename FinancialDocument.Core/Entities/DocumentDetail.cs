@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FinancialDocument.Core.Entities
+namespace FinancialDocument.Domain.Entities
 {
     public class DocumentDetail
     {

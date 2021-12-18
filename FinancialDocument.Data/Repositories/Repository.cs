@@ -1,4 +1,4 @@
-﻿using FinancialDocument.Core.Interfaces;
+﻿using FinancialDocument.Domain.Interfaces;
 using FinancialDocument.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System;

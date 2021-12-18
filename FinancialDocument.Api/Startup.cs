@@ -1,9 +1,9 @@
-using FinancialDocument.Core.Entities;
-using FinancialDocument.Core.Interfaces;
+using FinancialDocument.Domain.Entities;
+using FinancialDocument.Domain.Interfaces;
 using FinancialDocument.Data.Context;
 using FinancialDocument.Data.Repositories;
-using FinancialDocument.Domain.Core.Interfaces.Services;
-using FinancialDocument.Domain.Core.Services;
+using FinancialDocument.Domain.Interfaces.Services;
+using FinancialDocument.Service.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using FinancialDocument.IoC;
 
 namespace FinancialDocument.Api
 {
@@ -47,7 +48,7 @@ namespace FinancialDocument.Api
                     //    x.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                     //    x.JsonSerializerOptions.PropertyNamingPolicy = null;
                 })
-                .AddXmlSerializerFormatters()
+                //.AddXmlSerializerFormatters()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -59,19 +60,8 @@ namespace FinancialDocument.Api
             // Add Context
             services.AddScoped<AppDbContext>();
 
-            //Repositories
-            services.AddTransient<IRepository<PaymentMethod>, PaymentMethodRepository>();
-            services.AddTransient<IRepository<ReceivingLocation>, ReceivingLocationRepository>();
-            services.AddTransient<IRepository<BusinessPartner>, BusinessPartnerRepository>();
-            services.AddTransient<IRepository<Document>, DocumentRepository>();
-            services.AddTransient<IRepository<DocumentDetail>, DocumentDetailRepository>();
-
-            //Services
-            services.AddTransient<IPaymentMethodService, PaymentMethodService>();
-            services.AddTransient<IReceivingLocationService, ReceivingLocationService>();
-            services.AddTransient<IBusinessPartnerService, BusinessPartnerService>();
-            services.AddTransient<IDocumentService, DocumentService>();
-            services.AddTransient<IDocumentDetailService, DocumentDetailService>();
+            // Initialize the application container
+            InitializeIoC.ConfigureServices(services);
 
             //Swagger configuration
             services.AddSwaggerGen(c =>

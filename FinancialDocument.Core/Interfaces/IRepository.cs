@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FinancialDocument.Core.Interfaces
+namespace FinancialDocument.Domain.Interfaces
 {
     public interface IRepository<T>
     {

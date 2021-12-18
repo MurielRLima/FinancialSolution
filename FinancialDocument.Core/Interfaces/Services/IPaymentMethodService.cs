@@ -1,8 +1,7 @@
-﻿using FinancialDocument.Core.Entities;
-using FinancialDocument.Core.Interfaces;
+﻿using FinancialDocument.Domain.Entities;
 using System;
 
-namespace FinancialDocument.Domain.Core.Interfaces.Services
+namespace FinancialDocument.Domain.Interfaces.Services
 {
     public interface IPaymentMethodService
     {

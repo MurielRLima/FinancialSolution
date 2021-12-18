@@ -19,7 +19,7 @@ namespace FinancialDocument.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.5");
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.BusinessPartner", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.BusinessPartner", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -105,7 +105,7 @@ namespace FinancialDocument.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.PaymentMethod", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.PaymentMethod", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -167,7 +167,7 @@ namespace FinancialDocument.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FinancialDocument.Core.Entities.ReceivingLocation", b =>
+            modelBuilder.Entity("FinancialDocument.Domain.Entities.ReceivingLocation", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");

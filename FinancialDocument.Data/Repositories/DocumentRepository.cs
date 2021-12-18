@@ -1,4 +1,4 @@
-﻿using FinancialDocument.Core.Entities;
+﻿using FinancialDocument.Domain.Entities;
 using FinancialDocument.Data.Context;
 
 namespace FinancialDocument.Data.Repositories

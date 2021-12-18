@@ -1,4 +1,4 @@
-﻿namespace FinancialDocument.Domain.Core.Interfaces
+﻿namespace FinancialDocument.Domain.Interfaces
 {
     public interface IJsonAppResponse
     {

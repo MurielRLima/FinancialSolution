@@ -17,11 +17,19 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
+    <PackageReference Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialDocument.Core\FinancialDocument.Domain.Core.csproj" />
+    <ProjectReference Include="..\FinancialDocument.Core\FinancialDocument.Domain.csproj" />
     <ProjectReference Include="..\FinancialDocument.Data\FinancialDocument.Data.csproj" />
+    <ProjectReference Include="..\FinancialDocument.IoC\FinancialDocument.IoC.csproj" />
+    <ProjectReference Include="..\FinancialDocument.Service\FinancialDocument.Service.csproj" />
   </ItemGroup>
 
 </Project>

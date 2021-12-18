@@ -1,8 +1,8 @@
-﻿using FinancialDocument.Api.Commands;
-using FinancialDocument.Core.Entities;
-using FinancialDocument.Core.Interfaces;
-using FinancialDocument.Domain.Core.Interfaces.Services;
-using FinancialDocument.Domain.Core.Response;
+﻿using FinancialDocument.Service.Commands;
+using FinancialDocument.Domain.Entities;
+using FinancialDocument.Domain.Interfaces;
+using FinancialDocument.Domain.Interfaces.Services;
+using FinancialDocument.Domain.Response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -76,11 +76,12 @@ namespace FinancialSolution.Api.Controllers
         /// <summary>
         /// Create a register
         /// </summary>
+        /// <param name="command"></param>
+        /// <returns>A newly created register</returns>
         /// <remarks>
+        /// Sample request:
         /// 
-        /// Example:
-        /// 
-        ///     Post /financialdocument
+        ///     POST /financialdocument
         ///     {
         ///       "documentNumber": "Doc.Test",
         ///       "businessPartnerId": "6d357424-cf26-4efc-8723-b92c4ed4ca1b",
@@ -105,15 +106,15 @@ namespace FinancialSolution.Api.Controllers
         ///     }
         ///     
         /// </remarks>
-        /// <returns>Register created</returns>
-        /// <response code="200">Register created</response>
+        /// <response code="200">Returns the newly created register</response>
+        /// <response code="400">If the command is null</response>
         /// <response code="401">Unathorized</response>
         /// <response code="500">Internal error</response>
+        [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DocumentAddResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonResult))]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonResult))]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonResult))]
-        [HttpPost]
         public async Task<IActionResult> Post(DocumentAddCommand command)
         {
             var response = await _mediator.Send(command);

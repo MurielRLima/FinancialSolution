@@ -1,8 +1,8 @@
-﻿using FinancialDocument.Api.Commands;
-using FinancialDocument.Core.Entities;
-using FinancialDocument.Core.Interfaces;
-using FinancialDocument.Domain.Core.Interfaces.Services;
-using FinancialDocument.Domain.Core.Response;
+﻿using FinancialDocument.Service.Commands;
+using FinancialDocument.Domain.Entities;
+using FinancialDocument.Domain.Interfaces;
+using FinancialDocument.Domain.Interfaces.Services;
+using FinancialDocument.Domain.Response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

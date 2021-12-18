@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinancialDocument.Core\FinancialDocument.Domain.Core.csproj" />
+    <ProjectReference Include="..\FinancialDocument.Core\FinancialDocument.Domain.csproj" />
   </ItemGroup>
 
 </Project>
