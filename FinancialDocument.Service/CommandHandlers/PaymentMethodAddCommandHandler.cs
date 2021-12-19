@@ -8,6 +8,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text.Json;
+using FinancialDocument.Domain.Exceptions;
 
 namespace FinancialDocument.Service.CommandHandlers
 {
@@ -36,7 +37,7 @@ namespace FinancialDocument.Service.CommandHandlers
             {
                 //await _mediator.Publish(new PaymentMethodAddedNotification { Id = data.Id, Description = data.Description, Observation = data.Observation, Active = false, Installments = data.Installments });
                 await _mediator.Publish(new ErroNotification { InternalMessage = "Payment method add command handler", Error = ex.Message, Message = ex.StackTrace });
-                return await Task.FromResult("Ocorreu um erro ao criar o registro");
+                throw new FinancialInternalException("Ocorreu um erro ao criar o registro", ex);
             }
 
         }

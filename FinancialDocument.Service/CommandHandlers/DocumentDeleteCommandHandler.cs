@@ -8,6 +8,7 @@ using System;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using FinancialDocument.Domain.Exceptions;
 
 namespace FinancialDocument.Service.CommandHandlers
 {
@@ -45,7 +46,7 @@ namespace FinancialDocument.Service.CommandHandlers
             {
                 //await _mediator.Publish(new DocumentDeletedNotification { Id = request.Id });
                 await _mediator.Publish(new ErroNotification { InternalMessage = "Document delete command handler", Error = ex.Message, Message = ex.StackTrace });
-                return await Task.FromResult("Ocorreu um erro ao remover o registro");
+                throw new FinancialInternalException("Ocorreu um erro ao remover o registro", ex);
             }
 
         }

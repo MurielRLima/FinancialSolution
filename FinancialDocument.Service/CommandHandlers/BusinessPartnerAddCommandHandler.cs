@@ -1,4 +1,5 @@
 ﻿using FinancialDocument.Domain.Entities;
+using FinancialDocument.Domain.Exceptions;
 using FinancialDocument.Domain.Interfaces;
 using FinancialDocument.Service.Commands;
 using FinancialDocument.Service.Notifications;
@@ -48,7 +49,7 @@ namespace FinancialDocument.Service.CommandHandlers
             {
                 //await _mediator.Publish(new BusinessPartnerAddedNotification { Id = data.Id, TradingName = data.TradingName, CorporateName = data.CorporateName, Address = data.Address, Telephone = data.Telephone, Celphone = data.Celphone, Observation = data.Observation, Active = data.Active, IsSupplier = data.IsSupplier, IsCustomer = data.IsCustomer });
                 await _mediator.Publish(new ErroNotification { InternalMessage = "Business Partner add command handler", Error = ex.Message, Message = ex.StackTrace });
-                throw new Exception("Ocorreu um erro ao criar o registro");
+                throw new FinancialInternalException("Ocorreu um erro ao criar o registro", ex);
             }
 
         }

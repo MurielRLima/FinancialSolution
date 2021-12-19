@@ -7,6 +7,7 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using FinancialDocument.Domain.Exceptions;
 
 namespace FinancialDocument.Service.CommandHandlers
 {
@@ -35,7 +36,7 @@ namespace FinancialDocument.Service.CommandHandlers
             {
                 //await _mediator.Publish(new PaymentMethodUpdatedNotification { Id = data.Id, Description = data.Description, Observation = data.Observation, Active = false, Installments = data.Installments });
                 await _mediator.Publish(new ErroNotification { InternalMessage = "Payment method update command handler", Error = ex.Message, Message = ex.StackTrace });
-                throw new Exception("Ocorreu um erro ao atualizar o registro");
+                throw new FinancialInternalException("Ocorreu um erro ao atualizar o registro", ex);
             }
 
         }

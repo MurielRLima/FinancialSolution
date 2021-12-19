@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using FinancialDocument.IoC;
+using FinancialDocument.Api.Filters;
 
 namespace FinancialDocument.Api
 {
@@ -40,7 +41,11 @@ namespace FinancialDocument.Api
             #endregion
             services.AddDbContextPool<AppDbContext>(options => options.UseMySql(mySqlConn, ServerVersion.AutoDetect(mySqlConn)));
 
-            services.AddControllers()
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+                    options.RespectBrowserAcceptHeader = true; // false by default
+                })
                 .AddJsonOptions(x =>
                 {
                     //    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;

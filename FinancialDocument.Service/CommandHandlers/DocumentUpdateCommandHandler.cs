@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using FinancialDocument.Domain.Exceptions;
 
 namespace FinancialDocument.Service.CommandHandlers
 {
@@ -70,7 +71,7 @@ namespace FinancialDocument.Service.CommandHandlers
             {
                 //await _mediator.Publish(new DocumentUpdatedNotification { Id = data.Id, TradingName = data.TradingName, CorporateName = data.CorporateName, Address = data.Address, Telephone = data.Telephone, Celphone = data.Celphone, Observation = data.Observation, Active = data.Active, IsSupplier = data.IsSupplier, IsCustomer = data.IsCustomer });
                 await _mediator.Publish(new ErroNotification { InternalMessage = "Document update command handler", Error = ex.Message, Message = ex.StackTrace });
-                return await Task.FromResult("Ocorreu um erro ao atualizar o registro");
+                throw new FinancialInternalException("Ocorreu um erro ao atualizar o registro", ex);
             }
 
         }
