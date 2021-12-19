@@ -1,4 +1,6 @@
-﻿using FinancialDocument.Domain.Entities;
+﻿using FinancialDocument.Api.Examples.BusinessPartner;
+using FinancialDocument.Api.Examples.JsonResponse;
+using FinancialDocument.Domain.Entities;
 using FinancialDocument.Domain.Interfaces;
 using FinancialDocument.Domain.Interfaces.Services;
 using FinancialDocument.Domain.Response;
@@ -6,7 +8,9 @@ using FinancialDocument.Service.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Filters;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace FinancialSolution.Api.Controllers
@@ -65,12 +69,33 @@ namespace FinancialSolution.Api.Controllers
             return Ok(response);
         }
 
+
+
         /// <summary>
         /// Edit a register
         /// </summary>
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     PUT api/businesspartner/15241167-8bf8-41ea-a99f-0cd03acd0e65
+        ///     
+        /// </remarks>
         /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
         /// <param name="value"></param>
-        // PUT api/<BusinessPartnerController>/13c6bf63-821d-427e-8baf-1d50482d521f
+        /// <returns>Register updated</returns>
+        /// <response code="200">Register updated</response>
+        /// <response code="400">Not found</response>
+        [ProducesResponseType(200, Type = typeof(BusinessPartnerUpdateResponse))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(JsonAppResponseErrosExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
+        [SwaggerRequestExample(typeof(BusinessPartnerUpdateCommand), typeof(BusinessPartnerUpdateCommandExample))]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] BusinessPartnerUpdateCommand command)
         {

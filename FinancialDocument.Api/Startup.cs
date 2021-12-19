@@ -15,6 +15,12 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using FinancialDocument.IoC;
 using FinancialDocument.Api.Filters;
+using System.Reflection;
+using System.IO;
+using System;
+using Swashbuckle.AspNetCore.Filters;
+using FinancialDocument.Api.Examples.JsonResponse;
+using FinancialDocument.Api.Examples.BusinessPartner;
 
 namespace FinancialDocument.Api
 {
@@ -72,7 +78,46 @@ namespace FinancialDocument.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinancialDocument.Api", Version = "v1" });
-            });
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.SchemaFilter<SwaggerExcludeFilter>();
+                c.IncludeXmlComments(xmlPath);
+                c.ExampleFilters(); // This is mandatory for examples in swagger
+
+                //c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                //{
+                //    Name = "Authorization",
+                //    Type = SecuritySchemeType.Http,
+                //    Scheme = "basic",
+                //    In = ParameterLocation.Header,
+                //    Description = "Basic Authorization header using the Bearer scheme."
+                //});
+
+                //c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                //{
+                //    {
+                //        new OpenApiSecurityScheme
+                //        {
+                //            Reference = new OpenApiReference
+                //            {
+                //                Type = ReferenceType.SecurityScheme,
+                //                Id = "basic"
+                //            }
+                //        },
+                //        new string[] {}
+                //    }
+                //});
+
+                c.EnableAnnotations();
+            })
+            .AddSwaggerGenNewtonsoftSupport();
+
+            // Add swagger request and response examples
+            services.AddSwaggerExamplesFromAssemblyOf<JsonAppResponseErrosExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<BusinessPartnerUpdateCommandExample>();
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

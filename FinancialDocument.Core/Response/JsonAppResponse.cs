@@ -28,4 +28,5 @@ namespace FinancialDocument.Domain.Response
             return new JsonAppResponse() { code = "internal_error", description = message };
         }
     }
+
 }
