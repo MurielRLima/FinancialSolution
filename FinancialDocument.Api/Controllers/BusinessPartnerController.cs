@@ -57,11 +57,29 @@ namespace FinancialSolution.Api.Controllers
         }
 
         /// <summary>
-        /// Register a Payment method 
+        /// Create a register
         /// </summary>
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     POST api/businesspartner/
+        ///     
+        /// </remarks>
         /// <param name="command"></param>
-        /// <returns></returns>
-        // POST api/<BusinessPartnerController>
+        /// <returns>Register created</returns>
+        /// <response code="200">Register created</response>
+        [ProducesResponseType(200, Type = typeof(BusinessPartnerAddResponse))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(BusinessPartnerResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(JsonAppResponseErrosExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
+        [SwaggerRequestExample(typeof(BusinessPartnerUpdateCommand), typeof(BusinessPartnerAddCommandExample))]
         [HttpPost]
         public async Task<IActionResult> Post(BusinessPartnerAddCommand command)
         {
@@ -91,6 +109,7 @@ namespace FinancialSolution.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(BusinessPartnerResponseExample))]
         [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(JsonAppResponseErrosExample))]
         [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
         [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]

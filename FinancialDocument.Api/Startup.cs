@@ -116,7 +116,9 @@ namespace FinancialDocument.Api
             // Add swagger request and response examples
             services.AddSwaggerExamplesFromAssemblyOf<JsonAppResponseErrosExample>();
             services.AddSwaggerExamplesFromAssemblyOf<BusinessPartnerUpdateCommandExample>();
-            
+            services.AddSwaggerExamplesFromAssemblyOf<BusinessPartnerAddCommandExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<BusinessPartnerResponseExample>();
+
 
         }
 
