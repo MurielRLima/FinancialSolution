@@ -45,4 +45,12 @@ namespace FinancialDocument.Api.Examples.JsonResponse
         }
     }
 
+    public class JsonAppResponseOkExample : IExamplesProvider<IJsonAppResponse>
+    {
+        public IJsonAppResponse GetExamples()
+        {
+            return JsonAppResponse.CreateCustomResponse("success", "Ok");
+        }
+    }
+
 }

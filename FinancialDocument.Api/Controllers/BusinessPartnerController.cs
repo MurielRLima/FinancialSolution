@@ -36,21 +36,53 @@ namespace FinancialSolution.Api.Controllers
         /// <summary>
         /// Get all registers
         /// </summary>
-        /// <returns></returns>
-        // GET: api/<BusinessPartnerController>
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     GET api/businesspartner/
+        ///     
+        /// </remarks>
+        /// <returns>List of registers</returns>
+        /// <response code="200">List of registers</response>
+        [ProducesResponseType(200, Type = typeof(BusinessPartnerGetAllResponseExample))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(BusinessPartnerGetAllResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
         [HttpGet]
+        // GET: api/businesspartner
         public async Task<IActionResult> Get()
         {
             return Ok(await _repository.GetAll());
         }
 
         /// <summary>
-        /// Get register by id
+        /// Get one register by id
         /// </summary>
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     GET api/businesspartner/15241167-8bf8-41ea-a99f-0cd03acd0e65
+        ///     
+        /// </remarks>
         /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
-        /// <returns></returns>
-        // GET api/<BusinessPartnerController>/13c6bf63-821d-427e-8baf-1d50482d521f
+        /// <returns>Register</returns>
+        /// <response code="200">List of registers</response>
+        [ProducesResponseType(200, Type = typeof(BusinessPartnerGetResponseExample))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(BusinessPartnerGetResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
         [HttpGet("{id}")]
+        // GET api/businesspartner/15241167-8bf8-41ea-a99f-0cd03acd0e65
         public async Task<IActionResult> Get(Guid id)
         {
             return Ok(await _repository.Get(id));
@@ -134,11 +166,32 @@ namespace FinancialSolution.Api.Controllers
             return Ok(response);
         }
 
+
         /// <summary>
         /// Remove a register by id
         /// </summary>
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     DELETE api/businesspartner/15241167-8bf8-41ea-a99f-0cd03acd0e65
+        ///     
+        /// </remarks>
         /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
-        // DELETE api/<BusinessPartnerController>/13c6bf63-821d-427e-8baf-1d50482d521f
+        /// <returns>Null</returns>
+        /// <response code="200">Register updated</response>
+        /// <response code="400">Not found</response>
+        [ProducesResponseType(200, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(JsonAppResponseOkExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(JsonAppResponseErrosExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
+        // DELETE api/businesspartner/15241167-8bf8-41ea-a99f-0cd03acd0e65
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
