@@ -7,12 +7,11 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.Json;
 using FinancialDocument.Domain.Exceptions;
 
 namespace FinancialDocument.Service.CommandHandlers
 {
-    public class PaymentMethodAddCommandHandler: IRequestHandler<PaymentMethodAddCommand, string>
+    public class PaymentMethodAddCommandHandler: IRequestHandler<PaymentMethodAddCommand, PaymentMethodAddResponse>
     {
         private readonly IMediator _mediator;
         private readonly IRepository<PaymentMethod> _repository;
@@ -23,7 +22,7 @@ namespace FinancialDocument.Service.CommandHandlers
             this._repository = repository;
         }
 
-        public async Task<string> Handle(PaymentMethodAddCommand request, CancellationToken cancellationToken)
+        public async Task<PaymentMethodAddResponse> Handle(PaymentMethodAddCommand request, CancellationToken cancellationToken)
         {
             PaymentMethod data = PaymentMethodAddCommand.MapTo(request);
 
@@ -31,7 +30,7 @@ namespace FinancialDocument.Service.CommandHandlers
             {
                 await _repository.Add(data);
                 await _mediator.Publish(new PaymentMethodAddedNotification { Id = data.Id, Description = data.Description, Observation = data.Observation, Active = data.Active, Installments = data.Installments });
-                return await Task.FromResult(JsonSerializer.Serialize(data));
+                return PaymentMethodAddResponse.MapTo(data);
             }
             catch (Exception ex)
             {

@@ -19,7 +19,6 @@ namespace FinancialSolution.Api.Controllers
     [ApiController]
     public class BusinessPartnerController : ControllerBase
     {
-
         private readonly IMediator _mediator;
         private readonly IRepository<BusinessPartner> _repository;
         private readonly IBusinessPartnerService _service;
@@ -119,10 +118,8 @@ namespace FinancialSolution.Api.Controllers
             return Ok(response);
         }
 
-
-
         /// <summary>
-        /// Edit a register
+        /// Update a register
         /// </summary>
         /// <remarks>
         /// 

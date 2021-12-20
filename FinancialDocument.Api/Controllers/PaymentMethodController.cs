@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using FinancialDocument.Api.Examples.PaymentMethod;
+using System.Net;
+using Swashbuckle.AspNetCore.Filters;
+using FinancialDocument.Api.Examples.JsonResponse;
 
 namespace FinancialDocument.Api.Command.Controllers
 {
@@ -32,20 +36,52 @@ namespace FinancialDocument.Api.Command.Controllers
         /// <summary>
         /// Get all registers
         /// </summary>
-        /// <returns></returns>
-        // GET: api/<PaymentMethodController>
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     GET api/paymentmethod/
+        ///     
+        /// </remarks>
+        /// <returns>List of registers</returns>
+        /// <response code="200">List of registers</response>
+        [ProducesResponseType(200, Type = typeof(PaymentMethodGetAllResponseExample))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(PaymentMethodGetAllResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
         [HttpGet]
+        // GET: api/paymentmethod
         public async Task<IActionResult> Get()
         {
             return Ok(await _repository.GetAll());
         }
 
         /// <summary>
-        /// Get register by id
+        /// Get one register by id
         /// </summary>
-        /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
-        /// <returns></returns>
-        // GET api/<PaymentMethodController>/13c6bf63-821d-427e-8baf-1d50482d521f
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     GET api/paymentmethod/13c6bf63-821d-427e-8baf-1d50482d521f
+        ///     
+        /// </remarks>
+        /// <param name="id">13c6bf63-821d-427e-8baf-1d50482d521f</param>
+        /// <returns>Register</returns>
+        /// <response code="200">List of registers</response>
+        [ProducesResponseType(200, Type = typeof(PaymentMethodGetResponseExample))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(PaymentMethodGetResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
+        // GET api/paymentmethod/13c6bf63-821d-427e-8baf-1d50482d521f
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -53,12 +89,31 @@ namespace FinancialDocument.Api.Command.Controllers
         }
 
         /// <summary>
-        /// Register a Payment method 
+        /// Create a register
         /// </summary>
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     POST api/paymentmethod/
+        ///     
+        /// </remarks>
         /// <param name="command"></param>
-        /// <returns></returns>
-        // POST api/<PaymentMethodController>
+        /// <returns>Register created</returns>
+        /// <response code="200">Register created</response>
+        [ProducesResponseType(200, Type = typeof(PaymentMethodAddResponse))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(PaymentMethodAddResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(JsonAppResponseErrosExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
+        [SwaggerRequestExample(typeof(BusinessPartnerUpdateCommand), typeof(PaymentMethodAddCommandExample))]
         [HttpPost]
+        // POST api/paymentmethod
         public async Task<IActionResult> Post(PaymentMethodAddCommand command)
         {
             var response = await _mediator.Send(command);
@@ -66,12 +121,33 @@ namespace FinancialDocument.Api.Command.Controllers
         }
 
         /// <summary>
-        /// Edit a register
+        /// Update a register
         /// </summary>
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     PUT api/paymentmethod/13c6bf63-821d-427e-8baf-1d50482d521f
+        ///     
+        /// </remarks>
         /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
         /// <param name="value"></param>
-        // PUT api/<PaymentMethodController>/13c6bf63-821d-427e-8baf-1d50482d521f
+        /// <returns>Register updated</returns>
+        /// <response code="200">Register updated</response>
+        /// <response code="400">Not found</response>
+        [ProducesResponseType(200, Type = typeof(PaymentMethodUpdateResponseExample))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(PaymentMethodUpdateResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(JsonAppResponseErrosExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
+        [SwaggerRequestExample(typeof(BusinessPartnerUpdateCommand), typeof(PaymentMethodUpdateCommandExample))]
         [HttpPut("{id}")]
+        // PUT api/paymentmethod/13c6bf63-821d-427e-8baf-1d50482d521f
         public async Task<IActionResult> Put(Guid id, [FromBody] PaymentMethodUpdateCommand command)
         {
             if (id.ToString() == "" || id == Guid.Empty)
@@ -93,8 +169,28 @@ namespace FinancialDocument.Api.Command.Controllers
         /// <summary>
         /// Remove a register by id
         /// </summary>
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     DELETE api/paymentmethod/15241167-8bf8-41ea-a99f-0cd03acd0e65
+        ///     
+        /// </remarks>
         /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
-        // DELETE api/<PaymentMethodController>/13c6bf63-821d-427e-8baf-1d50482d521f
+        /// <returns>Null</returns>
+        /// <response code="200">Register updated</response>
+        /// <response code="400">Not found</response>
+        [ProducesResponseType(200, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(JsonAppResponseOkExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(JsonAppResponseErrosExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
+        // DELETE api/paymentmethod/15241167-8bf8-41ea-a99f-0cd03acd0e65
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
