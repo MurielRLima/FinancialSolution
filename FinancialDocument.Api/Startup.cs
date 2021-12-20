@@ -21,6 +21,8 @@ using System;
 using Swashbuckle.AspNetCore.Filters;
 using FinancialDocument.Api.Examples.JsonResponse;
 using FinancialDocument.Api.Examples.BusinessPartner;
+using FinancialDocument.Api.Examples.PaymentMethod;
+using FinancialDocument.Api.Examples.ReceivingLocation;
 
 namespace FinancialDocument.Api
 {
@@ -115,13 +117,29 @@ namespace FinancialDocument.Api
 
             // Add swagger request and response examples
             services.AddSwaggerExamplesFromAssemblyOf<JsonAppResponseErrosExample>();
+
+            // BusinessPartner
             services.AddSwaggerExamplesFromAssemblyOf<BusinessPartnerAddCommandExample>();
             services.AddSwaggerExamplesFromAssemblyOf<BusinessPartnerUpdateCommandExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<BusinessPartnerResponseExample>();
             services.AddSwaggerExamplesFromAssemblyOf<BusinessPartnerGetAllResponseExample>();
             services.AddSwaggerExamplesFromAssemblyOf<BusinessPartnerGetResponseExample>();
-            services.AddSwaggerExamplesFromAssemblyOf<BusinessPartnerResponseExample>();
 
+            // PaymentMethod
+            services.AddSwaggerExamplesFromAssemblyOf<PaymentMethodGetAllResponseExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<PaymentMethodAddCommandExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<PaymentMethodAddResponseExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<PaymentMethodGetResponseExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<PaymentMethodUpdateCommandExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<PaymentMethodUpdateResponseExample>();
 
+            // ReceivingLocation
+            services.AddSwaggerExamplesFromAssemblyOf<ReceivingLocationGetAllResponseExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<ReceivingLocationAddCommandExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<ReceivingLocationAddResponseExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<ReceivingLocationGetResponseExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<ReceivingLocationUpdateCommandExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<ReceivingLocationUpdateResponseExample>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
