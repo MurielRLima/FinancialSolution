@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 
 namespace FinancialDocument.Service.Commands
 {
-    public class DocumentUpdateCommand : IRequest<string>
+    public class DocumentUpdateCommand : IRequest<DocumentUpdateResponse>
     {
         [DataMember]
         [Required]
@@ -82,6 +82,86 @@ namespace FinancialDocument.Service.Commands
                 r.Add(new DocumentDetail()
                 {
                     Id = (detail.Id == Guid.Empty ? Guid.NewGuid() : detail.Id),
+                    DocumentId = detail.DocumentId,
+                    OperationType = detail.OperationType,
+                    Date = detail.Date,
+                    Value = detail.Value,
+                    Observation = detail.Observation,
+                    Active = detail.Active
+                });
+            }
+            return r;
+        }
+    }
+
+    public class DocumentUpdateResponse
+    {
+        public Guid Id { get; set; }
+        public string DocumentNumber { get; set; }
+        public Guid BusinessPartnerId { get; set; }
+        public string DocumentType { get; set; }
+        public DateTime IssueDate { get; set; }
+        public DateTime DueDate { get; set; }
+        public Double Amount { get; set; }
+        public Guid PaymentMethodId { get; set; }
+        public Guid ReceivingLocationId { get; set; }
+        public string Observation { get; set; }
+        public bool Settled { get; set; }
+        public bool Active { get; set; }
+
+        public static DocumentUpdateResponse MapTo(Document document)
+        {
+            return new DocumentUpdateResponse()
+            {
+                Id = document.Id,
+                DocumentNumber = document.DocumentNumber,
+                BusinessPartnerId = document.BusinessPartnerId,
+                DocumentType = document.DocumentType,
+                IssueDate = document.IssueDate,
+                DueDate = document.DueDate,
+                Amount = document.Amount,
+                PaymentMethodId = document.PaymentMethodId,
+                ReceivingLocationId = document.ReceivingLocationId,
+                Observation = document.Observation,
+                Active = document.Active,
+                documentDetails = DocumentDetailUpdateResponse.MapTo(document.documentDetails)
+            };
+        }
+        public List<DocumentDetailUpdateResponse> documentDetails { get; set; } = new List<DocumentDetailUpdateResponse>();
+    }
+
+    public class DocumentDetailUpdateResponse : IRequest<string>
+    {
+        public Guid Id { get; set; }
+        public Guid DocumentId { get; set; }
+        public string OperationType { get; set; }
+        public DateTime Date { get; set; }
+        public Double Value { get; set; }
+        public string Observation { get; set; }
+        public bool Active { get; set; }
+        public static DocumentDetailUpdateResponse MapTo(DocumentDetail detail)
+        {
+            return new DocumentDetailUpdateResponse()
+            {
+                Id = detail.Id,
+                DocumentId = detail.DocumentId,
+                OperationType = detail.OperationType,
+                Date = detail.Date,
+                Value = detail.Value,
+                Observation = detail.Observation,
+                Active = detail.Active
+            };
+        }
+
+        public static List<DocumentDetailUpdateResponse> MapTo(List<DocumentDetail> detailList)
+        {
+            var r = new List<DocumentDetailUpdateResponse>();
+
+            foreach (var detail in detailList)
+            {
+                r.Add(new DocumentDetailUpdateResponse()
+                {
+                    Id = detail.Id,
                     DocumentId = detail.DocumentId,
                     OperationType = detail.OperationType,
                     Date = detail.Date,

@@ -5,7 +5,6 @@ using FinancialDocument.Domain.Entities;
 using FinancialDocument.Domain.Interfaces;
 using MediatR;
 using System;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using FinancialDocument.Domain.Exceptions;
@@ -28,11 +27,18 @@ namespace FinancialDocument.Service.CommandHandlers
         public async Task<DocumentAddResponse> Handle(DocumentAddCommand request, CancellationToken cancellationToken)
         {
             Document data = DocumentAddCommand.MapTo(request);
-
             try
             {
+                if (!data.ValidateIssueAndDueDate())
+                    throw new Exception("A data de vencimento deve ser maior que a emissão.");
+
+                if (!data.ValidateAmount())
+                    throw new Exception("A o valor do documento deve ser maior que zero.");
+
+                if ((!data.IsAmountSettled()) && (!data.Settled))
+                    throw new Exception("A soma do total das baixas é maior que o total do documento, marque a opção 'quitado'.");
+
                 await _repository.Add(data);
-                //await _detailRepository.Add(data.documentDetails);
 
                 await _mediator.Publish(
                     new DocumentAddedNotification

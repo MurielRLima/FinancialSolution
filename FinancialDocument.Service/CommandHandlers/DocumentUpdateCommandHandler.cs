@@ -5,17 +5,13 @@ using FinancialDocument.Domain.Entities;
 using FinancialDocument.Domain.Interfaces;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using FinancialDocument.Domain.Exceptions;
 
 namespace FinancialDocument.Service.CommandHandlers
 {
-    public class DocumentUpdateCommandHandler : IRequestHandler<DocumentUpdateCommand, string>
+    public class DocumentUpdateCommandHandler : IRequestHandler<DocumentUpdateCommand, DocumentUpdateResponse>
     {
         private readonly IMediator _mediator;
         private readonly IRepository<Document> _repository;
@@ -28,15 +24,24 @@ namespace FinancialDocument.Service.CommandHandlers
             this._detailRepository = detailRepository;
         }
 
-        public async Task<string> Handle(DocumentUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<DocumentUpdateResponse> Handle(DocumentUpdateCommand request, CancellationToken cancellationToken)
         {
             Document data = DocumentUpdateCommand.MapTo(request);
 
             try
             {
+                if (!data.ValidateIssueAndDueDate())
+                    throw new Exception("A data de vencimento deve ser maior que a emissão.");
+
+                if (!data.ValidateAmount())
+                    throw new Exception("A o valor do documento deve ser maior que zero.");
+
+                if ((!data.IsAmountSettled()) && (!data.Settled))
+                    throw new Exception("A soma do total das baixas é maior que o total do documento, marque a opção 'quitado'.");
+
                 await _repository.Edit(data);
 
-                foreach(var detail in data.documentDetails)
+                foreach (var detail in data.documentDetails)
                 {
                     if (detail.Id != Guid.Empty)
                         await _detailRepository.Delete(detail.Id);
@@ -61,11 +66,7 @@ namespace FinancialDocument.Service.CommandHandlers
                         Active = data.Active
                     }
                 );
-                return await Task.FromResult(JsonSerializer.Serialize(data, new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                    ReferenceHandler = ReferenceHandler.Preserve
-                }));
+                return DocumentUpdateResponse.MapTo(data);
             }
             catch (Exception ex)
             {
@@ -75,5 +76,5 @@ namespace FinancialDocument.Service.CommandHandlers
             }
 
         }
-    }
+    }    
 }
