@@ -28,6 +28,9 @@ namespace FinancialDocument.Service.CommandHandlers
 
             try
             {
+                // Validate entry data
+                data.IsValid();
+
                 await _repository.Edit(data);
                 await _mediator.Publish(new ReceivingLocationUpdatedNotification { Id = data.Id, Description = data.Description, Observation = data.Observation, Active = data.Active });
                 return ReceivingLocationUpdateResponse.MapTo(data);

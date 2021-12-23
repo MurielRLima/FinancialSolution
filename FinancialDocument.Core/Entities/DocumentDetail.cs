@@ -1,8 +1,9 @@
-﻿using System;
+﻿using FinancialDocument.Domain.Interfaces;
+using System;
 
 namespace FinancialDocument.Domain.Entities
 {
-    public class DocumentDetail
+    public class DocumentDetail : IEntityBase
     {
         public Guid Id { get; set; }
         public Guid DocumentId { get; set; }
@@ -14,7 +15,15 @@ namespace FinancialDocument.Domain.Entities
 
         public Document document { get; set; }
 
-        public bool ValidateDate(DateTime DocumentIssueDate)
+        public bool IsValid()
+        {
+            if (OperationType != "D" && OperationType != "C")
+                throw new Exception("Tipo de operação inválida.");
+
+            return true;
+        }
+
+        public bool IsValidDate(DateTime DocumentIssueDate)
         {
             return (Date >= DocumentIssueDate);
         }

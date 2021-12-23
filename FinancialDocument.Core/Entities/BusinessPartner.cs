@@ -1,9 +1,10 @@
-﻿using System;
+﻿using FinancialDocument.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace FinancialDocument.Domain.Entities
 {
-    public class BusinessPartner
+    public class BusinessPartner : IEntityBase
     {
         public Guid Id { get; set; }
         public string TradingName { get; set; }
@@ -17,5 +18,22 @@ namespace FinancialDocument.Domain.Entities
         public bool IsCustomer { get; set; }
 
         public List<Document> Documents { get; set; } = new List<Document>();
+
+        public bool IsValid()
+        {
+            if (String.IsNullOrEmpty(TradingName))
+                throw new Exception("Preencha o campo 'TradingName'.");
+
+            if (String.IsNullOrEmpty(CorporateName))
+                throw new Exception("Preencha o campo 'CorporateName'.");
+
+            if (String.IsNullOrEmpty(Address))
+                throw new Exception("Preencha o campo 'Address'.");
+
+            if (!IsSupplier && !IsCustomer)
+                throw new Exception("Deve ser selecionada pelo menos um dos tipos: 'IsSupplier' ou 'IsCustomer'.");
+
+            return true;
+        }
     }
 }

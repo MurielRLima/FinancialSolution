@@ -30,14 +30,8 @@ namespace FinancialDocument.Service.CommandHandlers
 
             try
             {
-                if (!data.ValidateIssueAndDueDate())
-                    throw new Exception("A data de vencimento deve ser maior que a emissão.");
-
-                if (!data.ValidateAmount())
-                    throw new Exception("A o valor do documento deve ser maior que zero.");
-
-                if ((!data.IsAmountSettled()) && (!data.Settled))
-                    throw new Exception("A soma do total das baixas é maior que o total do documento, marque a opção 'quitado'.");
+                // Validate entry data
+                data.IsValid();
 
                 await _repository.Edit(data);
 

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using FinancialDocument.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FinancialDocument.Domain.Entities
 {
-    public class Document
+    public class Document: IEntityBase
     {
         public Document()
         {
@@ -31,24 +32,42 @@ namespace FinancialDocument.Domain.Entities
 
         public List<DocumentDetail> documentDetails { get; set; } = new List<DocumentDetail>();
 
-        public bool ValidateIssueAndDueDate()
+        public bool IsValid()
+        {
+            if (!ValidateIssueAndDueDate())
+                throw new Exception("A data de vencimento deve ser maior que a emissão.");
+
+            if (!ValidateAmount())
+                throw new Exception("A o valor do documento deve ser maior que zero.");
+
+            if ((!IsAmountSettled()) && (!Settled))
+                throw new Exception("A soma do total das baixas é maior que o total do documento, marque a opção 'quitado'.");
+
+            if (DocumentType != "D" && DocumentType != "C")
+                throw new Exception("Tipo de operação inválido.");
+
+            if (documentDetails.Where(t => t.OperationType != "D" && t.OperationType != "C").Any())
+                throw new Exception("Tipo de operação inválido no detalhe do documento.");
+
+            return true;
+        }
+
+        private bool ValidateIssueAndDueDate()
         {
             return (DueDate >= IssueDate);
         }
 
-        public bool ValidateAmount()
+        private bool ValidateAmount()
         {
             return (Amount > 0);
         }
 
-        public bool IsAmountSettled()
+        private bool IsAmountSettled()
         {
-            var dTotal = documentDetails.Where(t => t.OperationType == "D").Sum(x => x.Value);
-            var cTotal = documentDetails.Where(t => t.OperationType == "C").Sum(x => x.Value);
-            return ((cTotal- dTotal) >= Amount);
+            return (GetDetailTotal() >= Amount);
         }
 
-        public Double GetDetailTotal()
+        private Double GetDetailTotal()
         {
             var dTotal = documentDetails.Where(t => t.OperationType == "D").Sum(x => x.Value);
             var cTotal = documentDetails.Where(t => t.OperationType == "C").Sum(x => x.Value);

@@ -28,6 +28,9 @@ namespace FinancialDocument.Service.CommandHandlers
 
             try
             {
+                // Validate entry data
+                data.IsValid();
+
                 await _repository.Edit(data);
                 await _mediator.Publish(
                     new BusinessPartnerUpdatedNotification {
