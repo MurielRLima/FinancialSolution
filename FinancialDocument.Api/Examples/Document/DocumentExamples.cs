@@ -181,6 +181,7 @@ namespace FinancialDocument.Api.Examples.Document
                     Settled = false,
                     documentDetails = new List<DocumentDetailUpdate>() {
                         new DocumentDetailUpdate() {
+                            Id = Guid.NewGuid(),
                             DocumentId = id,
                             OperationType = "D",
                             Date = DateTime.Now.AddDays(10),
@@ -189,6 +190,7 @@ namespace FinancialDocument.Api.Examples.Document
                             Active = true
                         },
                         new DocumentDetailUpdate() {
+                            Id = Guid.NewGuid(),
                             DocumentId = id,
                             OperationType = "C",
                             Date = DateTime.Now,
@@ -202,4 +204,211 @@ namespace FinancialDocument.Api.Examples.Document
 
         }
     }
+
+    public class DocumentResponseExample : IExamplesProvider<DocumentAddResponse>
+    {
+        public DocumentAddResponse GetExamples()
+        {
+            Guid id = Guid.NewGuid();
+            return new DocumentAddResponse()
+            {
+                Id = id,
+                DocumentNumber = "Doc.15936",
+                BusinessPartnerId = Guid.Parse("6d357424-cf26-4efc-8723-b92c4ed4ca1b"),
+                DocumentType = "D",
+                IssueDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(10),
+                Amount = 580.25,
+                PaymentMethodId = Guid.Parse("d997816b-163a-4d98-9194-0603612bcc79"),
+                ReceivingLocationId = Guid.Parse("5f5261df-1bb2-4f0b-a901-9cf15dd8ca44"),
+                Observation = "Purchase of supplements",
+                Active = true,
+                Settled = false,
+                documentDetails = new List<DocumentDetailAddResponse>() {
+                    new DocumentDetailAddResponse() {
+                        Id = Guid.NewGuid(),
+                        DocumentId = id,
+                        OperationType = "D",
+                        Date = DateTime.Now.AddDays(10),
+                        Value = 580.25,
+                        Observation = "Advance payment",
+                        Active = true
+                    },
+                    new DocumentDetailAddResponse() {
+                        Id = Guid.NewGuid(),
+                        DocumentId = id,
+                        OperationType = "C",
+                        Date = DateTime.Now,
+                        Value = 250,
+                        Observation = "Advance payment",
+                        Active = true
+                    }
+                }
+            };
+        }
+    }
+
+    public class DocumentGetAllResponseExample : IExamplesProvider<List<DocumentAddResponse>>
+    {
+        public List<DocumentAddResponse> GetExamples()
+        {
+            Guid id = Guid.NewGuid();
+            var r = new List<DocumentAddResponse>();
+            r.Add(new DocumentAddResponse()
+            {
+                Id = id,
+                DocumentNumber = "Doc.15936",
+                BusinessPartnerId = Guid.Parse("6d357424-cf26-4efc-8723-b92c4ed4ca1b"),
+                DocumentType = "D",
+                IssueDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(10),
+                Amount = 580.25,
+                PaymentMethodId = Guid.Parse("d997816b-163a-4d98-9194-0603612bcc79"),
+                ReceivingLocationId = Guid.Parse("5f5261df-1bb2-4f0b-a901-9cf15dd8ca44"),
+                Observation = "Purchase of supplements",
+                Active = true,
+                Settled = false,
+                documentDetails = new List<DocumentDetailAddResponse>() {
+                    new DocumentDetailAddResponse() {
+                        Id = Guid.NewGuid(),
+                        DocumentId = id,
+                        OperationType = "D",
+                        Date = DateTime.Now.AddDays(10),
+                        Value = 580.25,
+                        Observation = "Advance payment",
+                        Active = true
+                    },
+                    new DocumentDetailAddResponse() {
+                        Id = Guid.NewGuid(),
+                        DocumentId = id,
+                        OperationType = "C",
+                        Date = DateTime.Now,
+                        Value = 250,
+                        Observation = "Advance payment",
+                        Active = true
+                    }
+                }
+            });
+
+            id = Guid.NewGuid();
+            r.Add(new DocumentAddResponse()
+            {
+                Id = id,
+                DocumentNumber = "Doc.Pay.1224",
+                BusinessPartnerId = Guid.Parse("6d357424-cf26-4efc-8723-b92c4ed4ca1b"),
+                DocumentType = "D",
+                IssueDate = DateTime.Now.AddDays(-60),
+                DueDate = DateTime.Now.AddDays(-30),
+                Amount = 850.50,
+                PaymentMethodId = Guid.Parse("d997816b-163a-4d98-9194-0603612bcc79"),
+                ReceivingLocationId = Guid.Parse("5f5261df-1bb2-4f0b-a901-9cf15dd8ca44"),
+                Observation = "Purchase of supplements",
+                Settled = true,
+                Active = true,
+                documentDetails = new List<DocumentDetailAddResponse>() {
+                        new DocumentDetailAddResponse() {
+                            Id = Guid.NewGuid(),
+                            DocumentId = id,
+                            OperationType = "D",
+                            Date = DateTime.Now.AddDays(-60),
+                            Value = 250,
+                            Observation = "Installment 1",
+                            Active = true
+                        },
+                        new DocumentDetailAddResponse() {
+                            Id = Guid.NewGuid(),
+                            DocumentId = id,
+                            OperationType = "C",
+                            Date = DateTime.Now.AddDays(-60),
+                            Value = 250,
+                            Observation = "Payment 1",
+                            Active = true
+                        },
+                        new DocumentDetailAddResponse() {
+                            Id = Guid.NewGuid(),
+                            DocumentId = id,
+                            OperationType = "D",
+                            Date = DateTime.Now.AddDays(-40),
+                            Value = 300,
+                            Observation = "Installment 2",
+                            Active = true
+                        },
+                        new DocumentDetailAddResponse() {
+                            Id = Guid.NewGuid(),
+                            DocumentId = id,
+                            OperationType = "C",
+                            Date = DateTime.Now.AddDays(-40),
+                            Value = 300,
+                            Observation = "Payment 2",
+                            Active = true
+                        },
+                        new DocumentDetailAddResponse() {
+                            Id = Guid.NewGuid(),
+                            DocumentId = id,
+                            OperationType = "D",
+                            Date = DateTime.Now.AddDays(-30),
+                            Value = 300.5,
+                            Observation = "Installment 3",
+                            Active = true
+                        },
+                        new DocumentDetailAddResponse() {
+                            Id = Guid.NewGuid(),
+                            DocumentId = id,
+                            OperationType = "C",
+                            Date = DateTime.Now.AddDays(-30),
+                            Value = 300.5,
+                            Observation = "Payment 3",
+                            Active = true
+                        },
+
+                    }
+            });
+
+            return r;
+        }
+    }
+
+    public class DocumentGetResponseExample : IExamplesProvider<DocumentAddResponse>
+    {
+        public DocumentAddResponse GetExamples()
+        {
+            Guid id = Guid.NewGuid();
+            return new DocumentAddResponse()
+            {
+                Id = id,
+                DocumentNumber = "Doc.15936",
+                BusinessPartnerId = Guid.Parse("6d357424-cf26-4efc-8723-b92c4ed4ca1b"),
+                DocumentType = "D",
+                IssueDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(10),
+                Amount = 580.25,
+                PaymentMethodId = Guid.Parse("d997816b-163a-4d98-9194-0603612bcc79"),
+                ReceivingLocationId = Guid.Parse("5f5261df-1bb2-4f0b-a901-9cf15dd8ca44"),
+                Observation = "Purchase of supplements",
+                Active = true,
+                Settled = false,
+                documentDetails = new List<DocumentDetailAddResponse>() {
+                    new DocumentDetailAddResponse() {
+                        Id = Guid.NewGuid(),
+                        DocumentId = id,
+                        OperationType = "D",
+                        Date = DateTime.Now.AddDays(10),
+                        Value = 580.25,
+                        Observation = "Advance payment",
+                        Active = true
+                    },
+                    new DocumentDetailAddResponse() {
+                        Id = Guid.NewGuid(),
+                        DocumentId = id,
+                        OperationType = "C",
+                        Date = DateTime.Now,
+                        Value = 250,
+                        Observation = "Advance payment",
+                        Active = true
+                    }
+                }
+            };
+        }
+    }
+
 }

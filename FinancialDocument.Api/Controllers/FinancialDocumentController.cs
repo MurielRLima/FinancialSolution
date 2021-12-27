@@ -11,6 +11,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Filters;
 using FinancialDocument.Api.Examples.Document;
+using FinancialDocument.Api.Examples.JsonResponse;
 
 namespace FinancialSolution.Api.Controllers
 {
@@ -27,7 +28,7 @@ namespace FinancialSolution.Api.Controllers
 
         public FinancialDocumentController(IMediator mediator, IRepository<Document> repository, IDocumentService service, ILogger<FinancialDocumentController> logger)
         {
-            this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); 
+            this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
             this._service = service ?? throw new ArgumentNullException(nameof(service));
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -38,14 +39,22 @@ namespace FinancialSolution.Api.Controllers
         /// </summary>
         /// <remarks>
         /// 
-        /// Exemplo:
+        /// Example:
         /// 
-        ///     Get /financialdocument
+        ///     GET api/financialdocument/
         ///     
         /// </remarks>
-        /// <returns>List of regtisters</returns>
-        /// <response code="200">List of regtisters</response>
-        /// <response code="401">Unathorized</response>
+        /// <returns>List of registers</returns>
+        /// <response code="200">List of registers</response>
+        [ProducesResponseType(200, Type = typeof(DocumentGetAllResponseExample))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(DocumentGetAllResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
+        [HttpGet]
         // GET: api/financialdocument
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -54,19 +63,26 @@ namespace FinancialSolution.Api.Controllers
         }
 
         /// <summary>
-        /// Get register by id
+        /// Get one register by id
         /// </summary>
         /// <remarks>
         /// 
-        /// Exemplo:
+        /// Example:
         /// 
-        ///     Get /financialdocument/13c6bf63-821d-427e-8baf-1d50482d521f
+        ///     GET api/financialdocument/15241167-8bf8-41ea-a99f-0cd03acd0e65
         ///     
         /// </remarks>
-        /// <returns>One regtister</returns>
-        /// <response code="200">Register</response>
-        /// <response code="401">Unathorized</response>
-        /// <returns></returns>
+        /// <param name="id">15241167-8bf8-41ea-a99f-0cd03acd0e65</param>
+        /// <returns>Register</returns>
+        /// <response code="200">List of registers</response>
+        [ProducesResponseType(200, Type = typeof(DocumentGetResponseExample))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(DocumentGetResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
         // GET api/financialdocument/13c6bf63-821d-427e-8baf-1d50482d521f
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
@@ -84,28 +100,6 @@ namespace FinancialSolution.Api.Controllers
         /// Sample request:
         /// 
         ///     POST /financialdocument
-        ///     {
-        ///       "documentNumber": "Doc.Test",
-        ///       "businessPartnerId": "6d357424-cf26-4efc-8723-b92c4ed4ca1b",
-        ///       "documentType": "D",
-        ///       "issueDate": "2021-12-11T19:12:02.287Z",
-        ///       "dueDate": "2021-12-11T19:12:02.287Z",
-        ///       "amount": 1255.55,
-        ///       "paymentMethodId": "d819d8d6-a04a-4ce7-b290-143c79b9d625",
-        ///       "receivingLocationId": "efa1e8f7-3df9-45a3-855e-a904cd132ce7",
-        ///       "observation": null,
-        ///       "settled": false,
-        ///       "active": true,
-        ///       "documentDetails": [
-        ///         {
-        ///           "operationType": "C",
-        ///           "date": "2021-12-11T19:12:02.287Z",
-        ///           "value": 550,
-        ///           "observation": "entrada",
-        ///           "active": true
-        ///         }
-        ///       ]
-        ///     }
         ///     
         /// </remarks>
         /// <response code="200">Returns the newly created register</response>
@@ -117,7 +111,13 @@ namespace FinancialSolution.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonResult))]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonResult))]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonResult))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(DocumentResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(JsonAppResponseErrosExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
         [SwaggerRequestExample(typeof(BusinessPartnerUpdateCommand), typeof(DocumentAddCommandExample))]
+
         public async Task<IActionResult> Post(DocumentAddCommand command)
         {
             var response = await _mediator.Send(command);
@@ -144,6 +144,11 @@ namespace FinancialSolution.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonResult))]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonResult))]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonResult))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(DocumentResponseExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(JsonAppResponseErrosExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
         [SwaggerRequestExample(typeof(BusinessPartnerUpdateCommand), typeof(DocumentUpdateCommandExample))]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] DocumentUpdateCommand command)
@@ -178,6 +183,10 @@ namespace FinancialSolution.Api.Controllers
         /// <returns></returns>
         /// <response code="200"></response>
         /// <response code="401">Unathorized</response>
+        [SwaggerResponseExample((int)HttpStatusCode.BadRequest, typeof(JsonAppResponseErrosExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
         // DELETE api/financialdocument/13c6bf63-821d-427e-8baf-1d50482d521f
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
