@@ -117,7 +117,7 @@ namespace FinancialSolution.Api.Controllers
         [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
         [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
         [SwaggerRequestExample(typeof(BusinessPartnerUpdateCommand), typeof(DocumentAddCommandExample))]
-
+        // POST api/financialdocument/
         public async Task<IActionResult> Post(DocumentAddCommand command)
         {
             var response = await _mediator.Send(command);
@@ -139,7 +139,6 @@ namespace FinancialSolution.Api.Controllers
         /// <returns>Register updated</returns>
         /// <response code="200">Register updated</response>
         /// <response code="401">Unathorized</response>
-        // PUT api/financialdocument/13c6bf63-821d-427e-8baf-1d50482d521f
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DocumentUpdateResponse))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonResult))]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonResult))]
@@ -150,6 +149,7 @@ namespace FinancialSolution.Api.Controllers
         [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
         [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
         [SwaggerRequestExample(typeof(BusinessPartnerUpdateCommand), typeof(DocumentUpdateCommandExample))]
+        // PUT api/financialdocument/13c6bf63-821d-427e-8baf-1d50482d521f
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] DocumentUpdateCommand command)
         {
