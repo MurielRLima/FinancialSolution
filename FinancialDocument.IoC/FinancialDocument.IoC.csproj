@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinancialDocument.Data\FinancialDocument.Data.csproj" />
-    <ProjectReference Include="..\FinancialDocument.Service\FinancialDocument.Service.csproj" />
+    <ProjectReference Include="..\FinancialDocument.Service\FinancialDocument.Application.csproj" />
   </ItemGroup>
 
 </Project>

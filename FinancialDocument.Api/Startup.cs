@@ -1,9 +1,4 @@
-using FinancialDocument.Domain.Entities;
-using FinancialDocument.Domain.Interfaces;
 using FinancialDocument.Data.Context;
-using FinancialDocument.Data.Repositories;
-using FinancialDocument.Domain.Interfaces.Services;
-using FinancialDocument.Service.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +18,7 @@ using FinancialDocument.Api.Examples.JsonResponse;
 using FinancialDocument.Api.Examples.BusinessPartner;
 using FinancialDocument.Api.Examples.PaymentMethod;
 using FinancialDocument.Api.Examples.ReceivingLocation;
+using FinancialDocument.Api.Examples.Document;
 
 namespace FinancialDocument.Api
 {
@@ -140,6 +136,10 @@ namespace FinancialDocument.Api
             services.AddSwaggerExamplesFromAssemblyOf<ReceivingLocationGetResponseExample>();
             services.AddSwaggerExamplesFromAssemblyOf<ReceivingLocationUpdateCommandExample>();
             services.AddSwaggerExamplesFromAssemblyOf<ReceivingLocationUpdateResponseExample>();
+
+            // Financial document
+            services.AddSwaggerExamplesFromAssemblyOf<DocumentAddCommandExample>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

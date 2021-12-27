@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Swashbuckle.AspNetCore.Filters;
+using FinancialDocument.Api.Examples.Document;
 
 namespace FinancialSolution.Api.Controllers
 {
@@ -115,6 +117,7 @@ namespace FinancialSolution.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonResult))]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonResult))]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonResult))]
+        [SwaggerRequestExample(typeof(BusinessPartnerUpdateCommand), typeof(DocumentAddCommandExample))]
         public async Task<IActionResult> Post(DocumentAddCommand command)
         {
             var response = await _mediator.Send(command);
@@ -137,6 +140,11 @@ namespace FinancialSolution.Api.Controllers
         /// <response code="200">Register updated</response>
         /// <response code="401">Unathorized</response>
         // PUT api/financialdocument/13c6bf63-821d-427e-8baf-1d50482d521f
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(DocumentUpdateResponse))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(JsonResult))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonResult))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonResult))]
+        [SwaggerRequestExample(typeof(BusinessPartnerUpdateCommand), typeof(DocumentUpdateCommandExample))]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] DocumentUpdateCommand command)
         {

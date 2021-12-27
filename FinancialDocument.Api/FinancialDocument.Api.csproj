@@ -33,7 +33,7 @@
     <ProjectReference Include="..\FinancialDocument.Core\FinancialDocument.Domain.csproj" />
     <ProjectReference Include="..\FinancialDocument.Data\FinancialDocument.Data.csproj" />
     <ProjectReference Include="..\FinancialDocument.IoC\FinancialDocument.IoC.csproj" />
-    <ProjectReference Include="..\FinancialDocument.Service\FinancialDocument.Service.csproj" />
+    <ProjectReference Include="..\FinancialDocument.Service\FinancialDocument.Application.csproj" />
   </ItemGroup>
 
 </Project>
