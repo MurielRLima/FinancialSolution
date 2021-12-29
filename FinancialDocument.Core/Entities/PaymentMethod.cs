@@ -26,6 +26,11 @@ namespace FinancialDocument.Domain.Entities
             return true;
         }
 
+        public List<Double> GetInstallmentsValue(Double totalDocumentValue)
+        {
+            return this.GetInstallmentsValue(this.Installments, totalDocumentValue);
+        }
+
         public List<Double> GetInstallmentsValue(int installmentNumer, Double totalDocumentValue)
         {
             var result = new List<Double>();

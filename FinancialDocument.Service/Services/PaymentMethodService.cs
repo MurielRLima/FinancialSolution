@@ -2,6 +2,8 @@
 using FinancialDocument.Domain.Interfaces;
 using FinancialDocument.Domain.Interfaces.Services;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FinancialDocument.Service.Services
 {
@@ -17,6 +19,13 @@ namespace FinancialDocument.Service.Services
         public bool Exists(Guid Id)
         {
             return _repository.Exist(Id).Result;
+        }
+
+        public List<Double> GetInstallmentValue(Guid PaymentMethodId, double value)
+        {
+            var paymentMethod = _repository.Get(PaymentMethodId).Result;
+            var r = paymentMethod.GetInstallmentsValue(value);
+            return r;
         }
     }
 }

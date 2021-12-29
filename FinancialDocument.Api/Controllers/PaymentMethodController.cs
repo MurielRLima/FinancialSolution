@@ -12,6 +12,7 @@ using FinancialDocument.Api.Examples.PaymentMethod;
 using System.Net;
 using Swashbuckle.AspNetCore.Filters;
 using FinancialDocument.Api.Examples.JsonResponse;
+using System.Collections.Generic;
 
 namespace FinancialDocument.Api.Command.Controllers
 {
@@ -86,6 +87,46 @@ namespace FinancialDocument.Api.Command.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             return Ok(await _repository.Get(id));
+        }
+
+        /// <summary>
+        /// Get list of values of installments
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// Example:
+        /// 
+        ///     GET api/paymentmethod/d819d8d6-a04a-4ce7-b290-143c79b9d625/installmentvalue/251.54
+        ///     
+        /// </remarks>
+        /// <param name="id">d819d8d6-a04a-4ce7-b290-143c79b9d625</param>
+        /// <param name="totalvalue">251.54</param>
+        /// <returns>List of values</returns>
+        /// <response code="200">List of values</response>
+        [ProducesResponseType(200, Type = typeof(List<Double>))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized, Type = typeof(JsonAppResponse))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(JsonAppResponse))]
+        [SwaggerResponseExample((int)HttpStatusCode.OK, typeof(List<Double>))]
+        [SwaggerResponseExample((int)HttpStatusCode.NotFound, typeof(JsonAppResponseNotExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.Unauthorized, typeof(JsonAppResponseUnauthorizedExample))]
+        [SwaggerResponseExample((int)HttpStatusCode.InternalServerError, typeof(JsonAppResponseInternalExample))]
+        // GET api/paymentmethod/d819d8d6-a04a-4ce7-b290-143c79b9d625/installmentvalue/251.54
+        //[Route("{paymentmethodid}/installmentvalue/{value}")]
+        [HttpGet("{id}/installmentvalue/{totalvalue}")]
+        public async Task<IActionResult> GetInstallmentValue(string id, string totalvalue)
+        {
+            var paymentmethodid = Guid.Parse(id);
+            var value = Double.Parse(totalvalue.Replace(".", ","));
+
+            if (!_service.Exists(paymentmethodid))
+            {
+                _logger.LogWarning($"Register with id '{paymentmethodid.ToString()}' not found.");
+                return BadRequest(JsonAppResponse.GetNotFound($"Register with id '{paymentmethodid.ToString()}' not found."));
+            }
+
+            var result = _service.GetInstallmentValue(paymentmethodid, value);
+            return Ok(result);
         }
 
         /// <summary>
