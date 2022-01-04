@@ -38,8 +38,6 @@ namespace TesteService.ApplicationTest
             var s = File.ReadAllText("../../../Json/businessPartnerPost.json");
             var command = JsonSerializer.Deserialize<BusinessPartnerAddCommand>(s);
 
-            //mediator.Setup(m => m.Publish(It.IsAny<BusinessPartnerAddCommand>(), It.IsAny<CancellationToken>())).Callback<BusinessPartnerAddCommand, CancellationToken>((notification, cToken) => _yourHandlerService.Handle(notification, cToken))
-
             BusinessPartnerAddCommandHandler handler = new BusinessPartnerAddCommandHandler(mediator.Object, repository.Object);
 
             ////Act
@@ -48,8 +46,7 @@ namespace TesteService.ApplicationTest
             //Asert
             Assert.NotNull(x);
 
-            //something like:
-            //mediator.Verify(x => x.Publish(It.IsAny<CustomersChanged>()));
+            //mediator.Verify(x => x.Publish(It.IsAny<BusinessPartnerAddResponse>()));
         }
     }
 }
