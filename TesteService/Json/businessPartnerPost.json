@@ -1,0 +1,11 @@
+{
+  "TradingName": "Test supplier",
+  "CorporateName": "Test supplier",
+  "Address": "Internal addres test, 68 - BRAZIL - SP",
+  "Telephone": "+55 0800-557554",
+  "Celphone": "",
+  "Observation": "Just a test",
+  "Active": true,
+  "IsSupplier": true,
+  "IsCustomer": false
+}
