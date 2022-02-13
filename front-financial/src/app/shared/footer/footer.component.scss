@@ -1,0 +1,9 @@
+.footer-container {
+  padding: 20px 50px;
+  font-size: small;
+  display: flex;
+  flex-direction: row-reverse;
+  position: fixed;
+  bottom: 0; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+}

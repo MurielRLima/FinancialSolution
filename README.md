@@ -5,12 +5,21 @@ APIs para CRUD de:
 - Local de recebimento (Caixa interno, conta corrente banco x)
 - Documento de débito e crédito (Valores, data de emissão e vencimento e movimentação com detalhes)
 
-# Tecnologias
+# Backend 
 1. .Net Core 5.0
 2. EntityFramework Core (ORM)
 3. MySql 8.0
 4. Swagger 
 
+# Frontend
+Angular CLI: 13.1.2
+Node: 14.16.0
+Package Manager: npm 8.3.0
+OS: win32 x64
+
+Angular: 13.1.1
+
+# Conceitos
 - Projeto desenvolvido usando:
 - DDD
 - Teste unitário (TDD)

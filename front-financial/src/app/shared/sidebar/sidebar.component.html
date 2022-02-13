@@ -1,0 +1,40 @@
+<mat-sidenav-container class="sidenav-container" hasBackdrop="false">
+  <mat-sidenav #sidenav mode="push" opened="false" class="sidenav" fixedInViewport="true" >
+
+    <mat-list color="primary" class="menu">
+      <mat-list-item >
+          <mat-icon aria-label="User data" style="color: #fff;" aria-hidden="false">account_circle </mat-icon> <span style="font-size: 14px; color: #fff;"> User name</span>
+      </mat-list-item>
+      <mat-list-item><br/></mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item >
+        <h3 matLine style="color: #fff;"> Menu </h3>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item >
+        <button mat-button >Business Partner</button>
+      </mat-list-item>
+      <mat-list-item >
+        <button mat-button >Payment method</button>
+      </mat-list-item>
+      <mat-list-item >
+        <button mat-button [routerLink]="'/receiving-location'">Receiving location</button>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item >
+        <button mat-button >Financial documents</button>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+  </mat-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-header></app-header>
+    <router-outlet class="main-container"></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,19 +1,10 @@
-﻿using FinancialDocument.Data.Context;
-using FinancialDocument.Data.Repositories;
-using FinancialDocument.Domain.Entities;
-using FinancialDocument.Domain.Interfaces;
+﻿using FinancialDocument.Data.Repositories;
 using FinancialDocument.Service.CommandHandlers;
 using FinancialDocument.Service.Commands;
 using MediatR;
 using Moq;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
