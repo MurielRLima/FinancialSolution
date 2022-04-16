@@ -11,12 +11,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import {MatMenuModule} from '@angular/material/menu';
 
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
-
+import { ReceivingLocationComponent } from './view/receiving-location/receiving-location.component';
+import { ReceivingLocationEditComponent } from './view/receiving-location/receiving-location-edit/receiving-location-edit.component';
+import { ReceivingLocationListComponent } from './view/receiving-location/receiving-location-list/receiving-location-list.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,8 +30,12 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
+    ReceivingLocationComponent,
+    ReceivingLocationEditComponent,
+    ReceivingLocationListComponent,
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -35,7 +44,10 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
     MatButtonModule,
     MatSidenavModule,
     MatListModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
